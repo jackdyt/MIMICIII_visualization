@@ -1,7 +1,7 @@
 --- 
-title: "YOUR TITLE HERE"
-author: "YOUR NAMES HERE"
-date: "`r Sys.Date()`"
+title: "MIMIC III"
+author: "Yaotian Dai"
+date: "11/23/2019"
 site: bookdown::bookdown_site
 ---
 
