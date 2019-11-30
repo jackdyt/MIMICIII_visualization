@@ -43,22 +43,69 @@ if (!require("nnet")) {
    install.packages("reshape2")
    library(lubridate)
 }
+if (!require("tidyverse")) {
+   install.packages("tidyverse")
+   library(tidyverse)
+}
+if (!require("lubridate")) {
+   install.packages("lubridate")
+   library(lubridate)
+}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
 Yaotian Dai
 #read in data
 ```{r}
-library(reshape2)
-library(nnet)
+
 # Read in synthetic data
-syntheticdata <- read.csv("~/data/MIMIC/MIMIC_synthetic/large_batch_2018_06_19/mimic_synthetic.csv")
-admissions<-read.csv("~/data/MIMIC/MIMIC_RAW_CSV/ADMISSIONS.csv")
-patients<-read.csv("~/data/MIMIC/MIMIC_RAW_CSV/PATIENTS.csv")
+
+admissions<-read.csv('C:/Users/pudon/Desktop/class/data visualization/final_project/MIMICIII_visualization/data/ADMISSIONS.csv')
+patients<-read.csv("C:/Users/pudon/Desktop/class/data visualization/final_project/MIMICIII_visualization/data/PATIENTS.csv")
 admissions <- admissions[complete.cases(admissions),]
 patients <- patients[complete.cases(patients),]
-icu_stay <- read.csv("~/data/MIMIC/MIMIC_RAW_CSV/ICUSTAYS.csv")
+icu_stay <- read.csv("C:/Users/pudon/Desktop/class/data visualization/final_project/MIMICIII_visualization/data/ICUSTAYS.csv")
 icu_stay <- icu_stay[complete.cases(icu_stay), ]
-dnr <- read.csv("~/data/MIMIC/MIMIC_RAW_CSV/DNR_computed.csv")
-dnr <- dnr[complete.cases(dnr), ]
+
 ```
+
+
+
+create the combine DF and add location, race, insurance, gender, first service
+```{r}
+fst_service <- icu_stay[, c("SUBJECT_ID", "HADM_ID", "ICUSTAY_ID", "FIRST_CAREUNIT", "LOS")]
+
+loc_race_insur <- admissions[,c("SUBJECT_ID","HADM_ID","ADMISSION_LOCATION","INSURANCE","ETHNICITY","ADMITTIME","DEATHTIME")]
+patient_gender <- patients[,c("SUBJECT_ID","GENDER","DOB")]
+loc_race_insur$ADMISSION_LOCATION<-fct_collapse(loc_race_insur$ADMISSION_LOCATION,
+Emergencyroom =c("EMERGENCY ROOM ADMIT"),
+Transfer=c("TRANSFER FROM HOSP/EXTRAM","TRANSFER FROM OTHER HEALT","TRANSFER FROM SKILLED NUR","TRSF WITHIN THIS FACILITY"),
+Outpatient=c("** INFO NOT AVAILABLE **","CLINIC REFERRAL/PREMATURE","HMO REFERRAL/SICK","PHYS REFERRAL/NORMAL DELI"))
+loc_race_insur$ETHNICITY<-fct_collapse(loc_race_insur$ETHNICITY,
+Asian=c(levels(loc_race_insur$ETHNICITY)[3:12]),
+Black=c(levels(loc_race_insur$ETHNICITY)[13:16]),
+White=c(levels(loc_race_insur$ETHNICITY)[37:41]),
+Unknown=c(levels(loc_race_insur$ETHNICITY)[35:36]),
+Other=c(levels(loc_race_insur$ETHNICITY)[c(1:2,17:34)]))
+loc_race_insur$INSURANCE<-fct_collapse(loc_race_insur$INSURANCE,Medicareonly=c("Medicare"), Private=c("Private" ,"Self Pay"), "Medicaid/other"=c("Government", "Medicaid"))
+ms_fst_service <- fst_service[fst_service$FIRST_CAREUNIT == "MICU" | fst_service$FIRST_CAREUNIT == "SICU", ]
+ms_fst_service <- ms_fst_service[ms_fst_service$LOS >= 1/6, ]
+ms_fst_service <- ms_fst_service[, c("SUBJECT_ID", "HADM_ID", "ICUSTAY_ID", "FIRST_CAREUNIT")]
+ms_fst_service <- ms_fst_service[!duplicated(ms_fst_service[, "SUBJECT_ID"]), ]
+loc_race_insur<-loc_race_insur[!duplicated(loc_race_insur$SUBJECT_ID),]
+
+comb<-inner_join(loc_race_insur,patient_gender,by="SUBJECT_ID")
+comb <- inner_join(ms_fst_service,comb, by=c("HADM_ID","SUBJECT_ID"))
+
+```
+#add 30 day mortailty to DF
+```{r}
+death_time<-ymd_hms(comb$DEATHTIME)
+admit_time<-ymd_hms(comb$ADMITTIME)
+mortality_thirty<-(death_time-admit_time)/86400
+comb$mortality_time<-mortality_thirty
+comb=within(comb,{mortality_withinthirtydays=ifelse(mortality_time<30,1,0)})
+comb$mortality_withinthirtydays[is.na(comb$mortality_withinthirtydays)] <- 0
+```
+
+
