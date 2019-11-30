@@ -1,1 +1,64 @@
 # Data transformation
+
+
+```{r, include=FALSE}
+# These will install required packages if they are not already installed
+if (!require("ggplot2")) {
+   install.packages("ggplot2")
+   library(ggplot2)
+}
+if (!require("dplyr")) {
+   install.packages("dplyr2")
+   library(dplyr)
+}
+if (!require("knitr")) {
+   install.packages("knitr")
+   library(knitr)
+}
+if (!require("xtable")) {
+   install.packages("xtable")
+   library(xtable)
+}
+if (!require("caret")) {
+   install.packages("caret")
+   library(caret)
+}
+if (!require("reshape2")){
+  install.packages("reshape2")
+   library(reshape2)
+} 
+if (!require("gridExtra")){
+  install.packages("gridExtra")
+   library(gridExtra)
+} 
+if (!require("MASS")){
+  install.packages("MASS")
+   library(MASS)
+} 
+if (!require("reshape2")) {
+   install.packages("nnet")
+   library(lubridate)
+}
+if (!require("nnet")) {
+   install.packages("reshape2")
+   library(lubridate)
+}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Yaotian Dai
+#read in data
+```{r}
+library(reshape2)
+library(nnet)
+# Read in synthetic data
+syntheticdata <- read.csv("~/data/MIMIC/MIMIC_synthetic/large_batch_2018_06_19/mimic_synthetic.csv")
+admissions<-read.csv("~/data/MIMIC/MIMIC_RAW_CSV/ADMISSIONS.csv")
+patients<-read.csv("~/data/MIMIC/MIMIC_RAW_CSV/PATIENTS.csv")
+admissions <- admissions[complete.cases(admissions),]
+patients <- patients[complete.cases(patients),]
+icu_stay <- read.csv("~/data/MIMIC/MIMIC_RAW_CSV/ICUSTAYS.csv")
+icu_stay <- icu_stay[complete.cases(icu_stay), ]
+dnr <- read.csv("~/data/MIMIC/MIMIC_RAW_CSV/DNR_computed.csv")
+dnr <- dnr[complete.cases(dnr), ]
+```
