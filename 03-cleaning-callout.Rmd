@@ -1,0 +1,58 @@
+# Data transformation
+```{r, include=FALSE}
+# These will install required packages if they are not already installed
+if (!require("ggplot2")) {
+   install.packages("ggplot2")
+   library(ggplot2)
+}
+if (!require("dplyr")) {
+   install.packages("dplyr2")
+   library(dplyr)
+}
+if (!require("knitr")) {
+   install.packages("knitr")
+   library(knitr)
+}
+if (!require("xtable")) {
+   install.packages("xtable")
+   library(xtable)
+}
+if (!require("caret")) {
+   install.packages("caret")
+   library(caret)
+}
+if (!require("reshape2")){
+  install.packages("reshape2")
+   library(reshape2)
+} 
+if (!require("gridExtra")){
+  install.packages("gridExtra")
+   library(gridExtra)
+} 
+if (!require("MASS")){
+  install.packages("MASS")
+   library(MASS)
+} 
+if (!require("reshape2")) {
+   install.packages("nnet")
+   library(lubridate)
+}
+if (!require("nnet")) {
+   install.packages("reshape2")
+   library(lubridate)
+}
+if (!require("tidyverse")) {
+   install.packages("tidyverse")
+   library(tidyverse)
+}
+if (!require("lubridate")) {
+   install.packages("lubridate")
+   library(lubridate)
+}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+library(readr)
+CALLOUT <- read_csv("~/MIMICIII_visualization/Data/CALLOUT.csv")
+CALLOUT
+```
