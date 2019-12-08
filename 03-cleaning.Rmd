@@ -107,5 +107,67 @@ comb$mortality_time<-mortality_thirty
 comb=within(comb,{mortality_withinthirtydays=ifelse(mortality_time<30,1,0)})
 comb$mortality_withinthirtydays[is.na(comb$mortality_withinthirtydays)] <- 0
 ```
+#add age to DF
+```{r}
+#convert admittime,deathtime,dob for format year-month-day-hour-min-seconds 
+#to normal format
+admitdate <- ymd_hms(comb$ADMITTIME)
+deathdate <- ymd_hms(comb$DEATHTIME)
+birthdate <- ymd_hms(comb$DOB)
 
+#take the difference, divide by 365, round it to get years as unit
+comb$age  <- round((difftime(admitdate,birthdate,units="days"))/365.242)
+comb$timedf <- round((difftime(deathdate,birthdate,units="days"))/365.242)
+
+#remove rows when people's age under 18
+comb <- subset(comb, comb$age>=18)
+comb$age <- as.numeric(comb$age)
+
+#create a new column named AGE to seperate age by range
+comb$AGE <- ifelse(comb$age<46,"<=45",
+           ifelse(comb$age>45 & comb$age<66,"46-65",
+           ifelse(comb$age>65 & comb$age<81,"66-80",
+           ifelse(comb$age>80,"81+",
+                  NA))))
+comb$AGE <- as.factor(comb$AGE)
+
+#remove age
+comb$age <- NULL
+```
+#add comorbidities to DF
+```{r}
+ICD<-read.csv("C:/Users/pudon/Desktop/class/data visualization/final_project/MIMICIII_visualization/data/DIAGNOSES_ICD.csv")
+ICD<-ICD[complete.cases(ICD),]
+COM<-ICD[,c("SUBJECT_ID","ICD9_CODE")]
+
+
+COM_CHF <- COM[COM$ICD9_CODE %in%  c("39891", "40201", "40211", "40291","40401", "40403", "40411", "40413","40491", "40493", 4254:4259,4280:4289) ,]
+COM_CHF<-COM_CHF[!duplicated(COM_CHF$SUBJECT_ID),]
+COM_CHF$DISEASE <- as.factor("Congestive heart failure")
+COM_CHF<- COM_CHF[,c("SUBJECT_ID","DISEASE")]
+
+
+COM_AM <- COM[COM$ICD9_CODE %in% c(1400:1729, 1740:1958,2000:2089, "2386") ,]
+COM_AM<-COM_AM[!duplicated(COM_AM$SUBJECT_ID),]
+COM_AM$DISEASE <- as.factor("Any malignancy")
+COM_AM<- COM_AM[,c("SUBJECT_ID","DISEASE")]
+
+COM_BOTH <-inner_join(COM_AM,COM_CHF,by=c("SUBJECT_ID"))
+COM_BOTH<- COM_BOTH[,c("SUBJECT_ID","DISEASE.x","DISEASE.y")]
+COM_BOTH$DISEASE <- as.factor("BOTH")
+COM_BOTH<- COM_BOTH[,c("SUBJECT_ID","DISEASE")]
+
+COM_ALL <- full_join(COM_AM,COM_CHF,by="SUBJECT_ID")
+COM_OTHER <- anti_join(COM,COM_ALL,by="SUBJECT_ID")
+COM_OTHER <- COM_OTHER[!duplicated(COM_OTHER$SUBJECT_ID),]
+COM_OTHER$DISEASE <- as.factor("OTHER")
+COM_OTHER<- COM_OTHER[,c("SUBJECT_ID","DISEASE")]
+
+COM1 <- anti_join(COM_CHF,COM_BOTH,by="SUBJECT_ID")
+COM2 <- anti_join(COM_AM,COM_BOTH,by="SUBJECT_ID")
+
+COM_DISEASE <- rbind(COM1,COM2,COM_OTHER,COM_BOTH)
+
+comb<-inner_join(comb,COM_DISEASE,by=c("SUBJECT_ID"))
+```
 
