@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(tidyverse)
 library(ggplot2)
-df<-read.csv("PATIENTS.csv")
+df<-read.csv("data/PATIENTS.csv")
 DeathY=df$DOD_HOSP
 BirthY=df$DOB
 #Data Cleaning
@@ -23,5 +23,5 @@ df$DOB<-BirthY
 df<-na.omit(df)
 df$LifeSpan<-(df$DOD-df$DOB) 
 df<-subset(df,LifeSpan<100&LifeSpan>0)
-ggplot(df,aes(df$LifeSpan))+geom_bar()+facet_wrap(df$GENDER)
+#ggplot(df,aes(df$LifeSpan))+geom_bar()+facet_wrap(df$GENDER)
 ```

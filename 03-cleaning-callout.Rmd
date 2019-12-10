@@ -51,9 +51,10 @@ if (!require("lubridate")) {
 }
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
 ```{r}
 library(readr)
-CALLOUT <- read_csv("~/MIMICIII_visualization/Data/CALLOUT.csv")
+CALLOUT <- read_csv("data/CALLOUT.csv")
 
-callout
+
 ```

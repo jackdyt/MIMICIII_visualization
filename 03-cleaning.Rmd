@@ -51,6 +51,10 @@ if (!require("lubridate")) {
    install.packages("lubridate")
    library(lubridate)
 }
+if (!require("readr")) {
+   install.packages("readr")
+   library(readr)
+}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -60,11 +64,11 @@ Yaotian Dai
 
 # Read in synthetic data
 
-admissions<-read.csv('C:/Users/pudon/Desktop/class/data visualization/final_project/MIMICIII_visualization/data/ADMISSIONS.csv')
-patients<-read.csv("C:/Users/pudon/Desktop/class/data visualization/final_project/MIMICIII_visualization/data/PATIENTS.csv")
+admissions<-read.csv("data/ADMISSIONS.csv")
+patients<-read.csv("data/PATIENTS.csv")
 #admissions <- admissions[complete.cases(admissions),]
 #patients <- patients[complete.cases(patients),]
-icu_stay <- read.csv("C:/Users/pudon/Desktop/class/data visualization/final_project/MIMICIII_visualization/data/ICUSTAYS.csv")
+icu_stay <- read.csv("data/ICUSTAYS.csv")
 #icu_stay <- icu_stay[complete.cases(icu_stay), ]
 
 ```
@@ -136,7 +140,7 @@ comb$age <- NULL
 ```
 #add comorbidities to DF
 ```{r}
-ICD<-read.csv("C:/Users/pudon/Desktop/class/data visualization/final_project/MIMICIII_visualization/data/DIAGNOSES_ICD.csv")
+ICD<-read.csv("data/DIAGNOSES_ICD.csv")
 ICD<-ICD[complete.cases(ICD),]
 COM<-ICD[,c("SUBJECT_ID","ICD9_CODE")]
 
