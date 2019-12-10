@@ -62,10 +62,10 @@ Yaotian Dai
 
 admissions<-read.csv('C:/Users/pudon/Desktop/class/data visualization/final_project/MIMICIII_visualization/data/ADMISSIONS.csv')
 patients<-read.csv("C:/Users/pudon/Desktop/class/data visualization/final_project/MIMICIII_visualization/data/PATIENTS.csv")
-admissions <- admissions[complete.cases(admissions),]
-patients <- patients[complete.cases(patients),]
+#admissions <- admissions[complete.cases(admissions),]
+#patients <- patients[complete.cases(patients),]
 icu_stay <- read.csv("C:/Users/pudon/Desktop/class/data visualization/final_project/MIMICIII_visualization/data/ICUSTAYS.csv")
-icu_stay <- icu_stay[complete.cases(icu_stay), ]
+#icu_stay <- icu_stay[complete.cases(icu_stay), ]
 
 ```
 
@@ -104,7 +104,7 @@ death_time<-ymd_hms(comb$DEATHTIME)
 admit_time<-ymd_hms(comb$ADMITTIME)
 mortality_thirty<-(death_time-admit_time)/86400
 comb$mortality_time<-mortality_thirty
-comb=within(comb,{mortality_withinthirtydays=ifelse(mortality_time<30,1,0)})
+comb=within(comb,{mortality_withinthirtydays=ifelse(mortality_time<30,"1","0")})
 comb$mortality_withinthirtydays[is.na(comb$mortality_withinthirtydays)] <- 0
 ```
 #add age to DF
@@ -117,7 +117,7 @@ birthdate <- ymd_hms(comb$DOB)
 
 #take the difference, divide by 365, round it to get years as unit
 comb$age  <- round((difftime(admitdate,birthdate,units="days"))/365.242)
-comb$timedf <- round((difftime(deathdate,birthdate,units="days"))/365.242)
+#comb$timedf <- round((difftime(deathdate,birthdate,units="days"))/365.242)
 
 #remove rows when people's age under 18
 comb <- subset(comb, comb$age>=18)

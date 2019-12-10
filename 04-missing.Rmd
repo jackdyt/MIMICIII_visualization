@@ -112,3 +112,12 @@ missmap(ICD)
 
 
 ```
+
+
+```{r}
+comb[comb==""] <- NA
+colSums(is.na(comb))
+missmap(comb)
+visna(comb, sort="b")
+
+```
