@@ -113,15 +113,15 @@ ggplot(comb,aes(h1,fill=h2))+geom_bar(position = "fill")+coord_flip()+ylab("Perc
 ```{r}
 ggplot(data = comb)+
    geom_mosaic(aes(x = product(mortality_withinthirtydays,INSURANCE)), na.rm = TRUE)+
-   labs(x = "mortality_withinthirtydays", y = "Insurance type")
+   labs(x = "Insurance type", y = "mortality_withinthirtydays")
 
 ggplot(data = comb)+
    geom_mosaic(aes(x = product(mortality_withinthirtydays,ADMISSION_LOCATION)), na.rm = TRUE)+
-   labs(x = "mortality_withinthirtydays", y = "ADMISSION_LOCATION")
+   labs(x = "ADMISSION_LOCATION", y ="mortality_withinthirtydays" )
 
 ggplot(data = comb)+
    geom_mosaic(aes(x = product(mortality_withinthirtydays,DISEASE)), na.rm = TRUE)+
-   labs(x = "mortality_withinthirtydays", y = "DISEASE")
+   labs(x = "DISEASE", y = "mortality_withinthirtydays")
 
 
 ggplot(data = comb)+
@@ -136,7 +136,7 @@ ggplot(data = comb)+
 
 ggplot(data = comb)+
   geom_mosaic(aes(x = product(ADMISSION_LOCATION, INSURANCE), fill= ADMISSION_LOCATION), na.rm = TRUE)+
-  labs(x = "Ethnicity", y = "mortality_withinthirtydays")+
+  labs(x = "Insurance Type", y ="Admission Location" )+
   facet_grid(mortality_withinthirtydays~.)
 
 
