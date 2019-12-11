@@ -84,6 +84,9 @@ h2 = comb$ETHNICITY
 h1 = comb$mortality_withinthirtydays
 df <- data_frame(h2,h1)%>%drop_na()
 ggplot(comb,aes(h1,fill=h2))+geom_bar(position = "fill")+coord_flip()+ylab("Percentage")+xlab("die within 30 days")+theme(legend.position="right")+theme(legend.title = element_blank())+ggtitle("Percentage of patients divided by Ethnicity  ")+theme(plot.title = element_text(hjust = 0.5))
+table2 <- table(comb$ETHNICITY)
+prop.table(table2)
+
 
 h2 = comb$GENDER
 h1 = comb$mortality_withinthirtydays
@@ -113,21 +116,28 @@ ggplot(data = comb)+
    labs(x = "mortality_withinthirtydays", y = "Insurance type")
 
 ggplot(data = comb)+
-   geom_mosaic(aes(x = product(mortality_withinthirtydays,DISEASE)), na.rm = TRUE)+
-   labs(x = "mortality_withinthirtydays", y = "DISEASE")
-
-ggplot(data = comb)+
    geom_mosaic(aes(x = product(mortality_withinthirtydays,ADMISSION_LOCATION)), na.rm = TRUE)+
    labs(x = "mortality_withinthirtydays", y = "ADMISSION_LOCATION")
 
 ggplot(data = comb)+
-  geom_mosaic(aes(x = product(mortality_withinthirtydays, INSURANCE), fill= mortality_withinthirtydays), na.rm = TRUE)+
-  labs(x = "Ethnicity", y = "mortality_withinthirtydays")+
-  facet_grid(DISEASE~.)
+   geom_mosaic(aes(x = product(mortality_withinthirtydays,DISEASE)), na.rm = TRUE)+
+   labs(x = "mortality_withinthirtydays", y = "DISEASE")
+
 
 ggplot(data = comb)+
   geom_mosaic(aes(x = product(mortality_withinthirtydays, ADMISSION_LOCATION), fill= mortality_withinthirtydays), na.rm = TRUE)+
   labs(x = "ADMISSION_LOCATION", y = "mortality_withinthirtydays")+
   facet_grid(INSURANCE~.)
+
+ggplot(data = comb)+
+  geom_mosaic(aes(x = product(mortality_withinthirtydays, INSURANCE), fill= mortality_withinthirtydays), na.rm = TRUE)+
+  labs(x = "Ethnicity", y = "mortality_withinthirtydays")+
+  facet_grid(ADMISSION_LOCATION~.)
+
+ggplot(data = comb)+
+  geom_mosaic(aes(x = product(ADMISSION_LOCATION, INSURANCE), fill= ADMISSION_LOCATION), na.rm = TRUE)+
+  labs(x = "Ethnicity", y = "mortality_withinthirtydays")+
+  facet_grid(mortality_withinthirtydays~.)
+
 
 ```

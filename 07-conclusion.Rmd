@@ -1,2 +1,13 @@
 # Conclusion
 
+
+Evaluate the factors that have an impact on 30-Day Mortality of Patients Admitted to the Intensive Care Unit (ICU)
+
+From the basic graphs, we can see how many patients of different gender, ages, ethnicity, admission location, and insurance type are accepted to ICU. They also show how many patients are dead within 30 days of their admission to ICU. We can see that first, the gender distribution is fairly even. Second, we have more patients with age higher than 45, and this is normal since older people are more likely to have emergent conditions. Third, we have more white patients who could cause some bias on ethnicity, and we will pay attention to this problem later. The portion of white patients is 71%. Fourth, we have more patients who have only Medicare, and more patients are from the emergency room directly. Finally, many more patients are alive within 30 days accepted to ICU. This is also normal because ICU saves people, not killing them.
+
+Then we want to find some patterns between factors that have an impact on 30-Day Mortality. First, we do not see some obvious patterns between ethnicity and 30-Day Mortality. The portion of each ethnicity is about the same as the portion of each ethnicity patients. The Gender shows the same pattern. However, for insurance type and admission location, we can see some patterns. More patients with Medicare and more patients who are transferred from other hospitals only die within 30 days. 
+
+Finally, we want to see more detail between insurance type, admission location, and 30-Day Mortality. From the graphs, we can see that no matter the insurance type, transferred patients have the highest mortality rate, and no matter the admission rate, patients with Medicare only have the highest mortality rate. 
+
+Therefore, we conclude that admission location and insurance type have impact on 30-Day Mortality of patients. Transferred patients and Medicare only patients have a higher mortality rate. This is partly because, as ICU patients, transferring from one hospital to a better hospital can waster a lot of precious time and cause higher Mortality. On the other hand, Medicare only patients tend to have lower income and lower living conditions, which may cause them to lose the best time to save lives. 
+

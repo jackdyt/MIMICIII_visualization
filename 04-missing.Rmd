@@ -85,8 +85,8 @@ colSums(is.na(admissions))
 missmap(admissions)
 visna(admissions, sort="b")
 
-
 ```
+EDREGTIME, EDOUTTIME are time that the patient was registered and discharged from the emergency department. Basically, we are not interested in these columns, so they don't have influence on our project.
 ```{r}
 patients[patients==""] <- NA
 colSums(is.na(patients))
@@ -95,22 +95,22 @@ visna(patients, sort="b")
 
 
 ```
+DOD is the date of death for the given patient. DOD_HOSP is the date of death as recorded in the hospital database. DOD_SSN is the date of death from the social security database. Is a patient do not die, then we don't have data in these columns.
 
 
 ```{r}
+# No missing data in icu_stay
 icu_stay[icu_stay==""] <- NA
 colSums(is.na(icu_stay))
 missmap(icu_stay)
-visna(icu_stay, sort="b")
+
 ```
 
 ```{r}
+#No missing data in ICD
 ICD[ICD==""] <- NA
 colSums(is.na(ICD))
 missmap(ICD)
-
-
-
 ```
 
 
@@ -121,3 +121,4 @@ missmap(comb)
 visna(comb, sort="b")
 
 ```
+We can see that all the missing data are in DEATHTIME and mortality_time. This is because not all the patients die and those who are alive don't have DEATHTIME and mortality_time.
