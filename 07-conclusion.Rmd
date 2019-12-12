@@ -1,7 +1,6 @@
 # Conclusion
 
-
-Evaluate the factors that have an impact on 30-Day Mortality of Patients Admitted to the Intensive Care Unit (ICU)
+Part a) Evaluate the factors that have an impact on 30-Day Mortality of Patients Admitted to the Intensive Care Unit (ICU)
 
 From the basic graphs, we can see how many patients of different gender, ages, ethnicity, admission location, and insurance type are accepted to ICU. They also show how many patients are dead within 30 days of their admission to ICU. We can see that first, the gender distribution is fairly even. Second, we have more patients with age higher than 45, and this is normal since older people are more likely to have emergent conditions. Third, we have more white patients who could cause some bias on ethnicity, and we will pay attention to this problem later. The portion of white patients is 71%. Fourth, we have more patients who have only Medicare, and more patients are from the emergency room directly. Finally, many more patients are alive within 30 days accepted to ICU. This is also normal because ICU saves people, not killing them.
 
@@ -11,3 +10,14 @@ Finally, we want to see more detail between insurance type, admission location, 
 
 Therefore, we conclude that admission location and insurance type have impact on 30-Day Mortality of patients. Transferred patients and Medicare only patients have a higher mortality rate. This is partly because, as ICU patients, transferring from one hospital to a better hospital can waster a lot of precious time and cause higher Mortality. On the other hand, Medicare only patients tend to have lower income and lower living conditions, which may cause them to lose the best time to save lives. 
 
+Part b) Justify the data cleaning in part a) is true
+
+In our exploration of the first part of the project, we did a lot of data cleaning. But is our data cleaning correct? We will try to justify it.
+
+In our first part, we filtered out all patients younger than 18 years old because of the following explorations.
+
+We observed the time distribution of patients receiving treatment in ICU and find that patients with subject ID before 35000 generally receive longer treatment in ICU than patients with subject ID after 35000. Why does it happen? This question is important because if we want to study whether the patient is alive within 30 days after receiving ICU treatment, we must study the factors that affect the length of time the patient is receiving treatment in ICU.
+
+Based on our series of analyses, we found that there was not much difference between the two groups in terms of gender and ethnicity.But there was a large difference in age distribution. We found that the number of patients under the age of 18 in the first group was much smaller than in the second group. To make things clear, we regrouped age. After several times of rebined, we found that the first group had no patients younger than 1 and the second group had 25% of patients younger than 1. Based on this obervation , we put forward a hypothesis: the second group may have a large number of newborns affecting the overall distribution. In order to determine that this hypothesis is correct, we divided the diagnosis into two groups, newborn and not newborn, and studied the types of ICU wards. We found that the first group had no NICU,which is aimed for babies, and no new born but the second group had many. This proves that our hypothesis is correct, and the number of newborns can explain the difference in distribution between the first and second groups.
+
+Therefore, our filtering out patients under the age of 18 in the first part is proved to be correct. If we do not filter out neonatal patients, our analysis will be wrong. As we all know, newborn babies need various treatments when they are weak at birth, but compared with the illness, once the newborns survive, they are more likely to stay alive rather than die. We cannot attribute all of this to treatment. Therefore, we have demonstrated that it is correct to wash out patients under the age of 18.
