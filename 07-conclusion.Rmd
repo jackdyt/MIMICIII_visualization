@@ -10,7 +10,7 @@ Finally, we want to see more detail between insurance type, admission location, 
 
 Therefore, we conclude that admission location and insurance type have impact on 30-Day Mortality of patients. Transferred patients and Medicare only patients have a higher mortality rate. This is partly because, as ICU patients, transferring from one hospital to a better hospital can waster a lot of precious time and cause higher Mortality. On the other hand, Medicare only patients tend to have lower income and lower living conditions, which may cause them to lose the best time to save lives. 
 
-Part b) Justify the data cleaning in part a) is true
+Part b) Explain the staying-time distribution difference of two patients groups
 
 In our exploration of the first part of the project, we did a lot of data cleaning. But is our data cleaning correct? We will try to justify it.
 
