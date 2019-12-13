@@ -59,7 +59,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-#read in data
+read in data
 ```{r}
 
 # Read in synthetic data
@@ -175,7 +175,6 @@ COM_DISEASE <- rbind(COM1,COM2,COM_OTHER,COM_BOTH)
 comb<-inner_join(comb,COM_DISEASE,by=c("SUBJECT_ID"))
 ```
 
-#Huimin Jiang
 
 
 
@@ -188,7 +187,7 @@ icucomb<-inner_join(ICUSTAYS_clean,icucomb, by=c("SUBJECT_ID","HADM_ID"))
 ```
 
 
-#Join age and change the bins
+Join age and change the bins
 ```{r}
 #convert admittime,deathtime,dob for format year-month-day-hour-min-seconds 
 #to normal format
