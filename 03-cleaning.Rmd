@@ -58,7 +58,7 @@ if (!require("readr")) {
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Yaotian Dai
+
 #read in data
 ```{r}
 
@@ -102,7 +102,7 @@ comb<-inner_join(loc_race_insur,patient_gender,by="SUBJECT_ID")
 comb <- inner_join(ms_fst_service,comb, by=c("HADM_ID","SUBJECT_ID"))
 
 ```
-#add 30 day mortailty to DF
+add 30 day mortailty to DF
 ```{r}
 death_time<-ymd_hms(comb$DEATHTIME)
 admit_time<-ymd_hms(comb$ADMITTIME)
@@ -111,7 +111,7 @@ comb$mortality_time<-mortality_thirty
 comb=within(comb,{mortality_withinthirtydays=ifelse(mortality_time<30,"1","0")})
 comb$mortality_withinthirtydays[is.na(comb$mortality_withinthirtydays)] <- 0
 ```
-#add age to DF
+add age to DF
 ```{r}
 #convert admittime,deathtime,dob for format year-month-day-hour-min-seconds 
 #to normal format
@@ -138,7 +138,7 @@ comb$AGE <- as.factor(comb$AGE)
 #remove age
 comb$age <- NULL
 ```
-#add comorbidities to DF
+add comorbidities to DF
 ```{r}
 ICD<-read.csv("data/DIAGNOSES_ICD.csv")
 ICD<-ICD[complete.cases(ICD),]

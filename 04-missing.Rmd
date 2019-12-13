@@ -68,7 +68,7 @@ if (!require("extracat")) {
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Yaotian Dai
+
 ```{r}
 admissions<-read.csv('C:/Users/pudon/Desktop/class/data visualization/final_project/MIMICIII_visualization/data/ADMISSIONS.csv')
 
