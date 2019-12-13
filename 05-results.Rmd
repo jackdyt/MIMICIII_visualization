@@ -141,3 +141,70 @@ ggplot(data = comb)+
 
 
 ```
+
+#Huimin Jiang
+Explain the staying-time distribution difference of two patients groups
+We first explore the distribution of patients' icu time.
+```{r}
+ggplot(icucomb,aes(x=SUBJECT_ID,y=LOS))+geom_point()+xlab("patient ID")+ylab("Days spend in ICU")+ggtitle("The time every patient spend in ICU")+theme(plot.title = element_text(hjust=0.5))
+
+```
+
+We find that the data are distributed into to parts and there exists a gap in the middle part of graph. This can be explained by that the patients with id from 35000 to 40000 didn't go to icu because their diseases are not required them to do that. But clearly there is a great difference between the two groups before ID=35000 and after.
+To make sure we didn't misunderstand the data pattern, we group the data into two groups to explore its' statistic distribution. And we use boxplot to make it clear.
+We can see in the first graph that two boxplots have similar mean, median, min and max, but have different outlier range. To make it clear, we use sqrt to change the y. In this case, there still a large difference in range.
+```{r}
+library(ggplot2)
+library(grid)
+library(gridExtra)
+
+g1<-ggplot(LOS_of_35minus,aes(y=LOS))+ geom_boxplot()+ylim(0,200)+xlab("Gourp0")
+g2<-ggplot(LOS_of_40plus,aes(y=LOS))+ geom_boxplot()+ylim(0,200)+xlab("Gourp1")
+
+
+grid.arrange(g1,g2,ncol=2,top = textGrob("boxplot of two groups",gp=gpar(fontsize=20,font=3)))
+
+g3<-ggplot(LOS_of_35minus,aes(y=sqrt(LOS)))+ geom_boxplot()+ylim(0,15)+xlab("Gourp0")
+g4<-ggplot(LOS_of_40plus,aes(y=sqrt(LOS)))+ geom_boxplot()+ylim(0,15)+xlab("Gourp1")
+grid.arrange(g3,g4,ncol=2,top = textGrob("boxplot of two groups",gp=gpar(fontsize=20,font=3)))
+```
+
+We try to find some factors that may explain this pattern.
+First we bin the data into two groups. group0 is id less than 35000 and group1 is id larger than 40000.
+```{r}
+
+ggplot(icucomb,aes(group,fill=GENDER))+geom_bar(position = "fill")+coord_flip()+ylab("Percentage")+xlab("group number")+theme(legend.position="right")+theme(legend.title = element_blank())+ggtitle("Gender distribution")+theme(plot.title = element_text(hjust = 0.5))
+
+ggplot(icucomb,aes(group,fill=FIRST_CAREUNIT))+geom_bar(position = "fill")+coord_flip()+ylab("Percentage")+xlab("group number")+theme(legend.position="right")+theme(legend.title = element_blank())+ggtitle("First careunit distribution ")+theme(plot.title = element_text(hjust = 0.5))
+
+ggplot(icucomb,aes(group,fill=LAST_CAREUNIT))+geom_bar(position = "fill")+coord_flip()+ylab("Percentage")+xlab("group number")+theme(legend.position="right")+theme(legend.title = element_blank())+ggtitle("Last careunit distribution")+theme(plot.title = element_text(hjust = 0.5))
+
+ggplot(icucomb,aes(group,fill=ETHNICITY))+geom_bar(position = "fill")+coord_flip()+ylab("Percentage")+xlab("group number")+theme(legend.position="right")+theme(legend.title = element_blank())+ggtitle("Enthicity distribution ")+theme(plot.title = element_text(hjust = 0.5))
+
+
+ggplot(icucomb,aes(group,fill=AGE))+geom_bar(position = "fill")+coord_flip()+ylab("Percentage")+xlab("group number")+theme(legend.position="right")+theme(legend.title = element_blank())+ggtitle("Age distribution ")+theme(plot.title = element_text(hjust = 0.5))
+
+
+ggplot(icucomb,aes(group,fill=AGE_rebin1))+geom_bar(position = "fill")+coord_flip()+ylab("Percentage")+xlab("group number")+theme(legend.position="right")+theme(legend.title = element_blank())+ggtitle("Age bin changes ")+theme(plot.title = element_text(hjust = 0.5))
+
+
+ggplot(icucomb,aes(h1,fill=AGE_rebin2))+geom_bar(position = "fill")+coord_flip()+ylab("Percentage")+xlab("group number")+theme(legend.position="right")+theme(legend.title = element_blank())+ggtitle("Age bin changes 2 ")+theme(plot.title = element_text(hjust = 0.5))
+
+
+ggplot(icucomb,aes(h1,fill=AGE_rebin3))+geom_bar(position = "fill")+coord_flip()+ylab("Percentage")+xlab("group number")+theme(legend.position="right")+theme(legend.title = element_blank())+ggtitle("Age bin changes 3")+theme(plot.title = element_text(hjust = 0.5))
+
+
+```
+
+In the 1st graphs, it is difficult to see the difference. Men and women are almost evenly distributed.
+The 2nd and 3rd graphs, group0 has NICU that group1 does not, we can pay attention to see if this pattern will help our research.
+In the 4th graph, there is no significant difference in the distribution of ethnicity between the two groups.
+In the 5th picture, we can see that group0 has the age group that group1 does not. In order to make the distribution of specific ages we gradually narrow the bin of the age difference. Finally, we found in the figure "Age bin changes 3" that there are many people in group0 who are younger than 1. We assume they are newborns. To make sure they are indeed newborn, we introduce diagnose to check if our assumption is right.
+
+
+```{r}
+
+ggplot(icucomb_check,aes(group,fill=newborn))+geom_bar(position = "fill")+coord_flip()+ylab("Percentage")+xlab("group number")+theme(legend.position="right")+theme(legend.title = element_blank())+ggtitle("Newborn in the total diagnose")+theme(plot.title = element_text(hjust = 0.5))
+
+```
+As we can see in the graph,  group 0 indeed has newborn which can explain the pattern shown in the point plot. 
