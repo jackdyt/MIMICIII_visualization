@@ -188,10 +188,10 @@ ggplot(icucomb,aes(group,fill=AGE))+geom_bar(position = "fill")+coord_flip()+yla
 ggplot(icucomb,aes(group,fill=AGE_rebin1))+geom_bar(position = "fill")+coord_flip()+ylab("Percentage")+xlab("group number")+theme(legend.position="right")+theme(legend.title = element_blank())+ggtitle("Age bin changes ")+theme(plot.title = element_text(hjust = 0.5))
 
 
-ggplot(icucomb,aes(h1,fill=AGE_rebin2))+geom_bar(position = "fill")+coord_flip()+ylab("Percentage")+xlab("group number")+theme(legend.position="right")+theme(legend.title = element_blank())+ggtitle("Age bin changes 2 ")+theme(plot.title = element_text(hjust = 0.5))
+ggplot(icucomb,aes(group,fill=AGE_rebin2))+geom_bar(position = "fill")+coord_flip()+ylab("Percentage")+xlab("group number")+theme(legend.position="right")+theme(legend.title = element_blank())+ggtitle("Age bin changes 2 ")+theme(plot.title = element_text(hjust = 0.5))
 
 
-ggplot(icucomb,aes(h1,fill=AGE_rebin3))+geom_bar(position = "fill")+coord_flip()+ylab("Percentage")+xlab("group number")+theme(legend.position="right")+theme(legend.title = element_blank())+ggtitle("Age bin changes 3")+theme(plot.title = element_text(hjust = 0.5))
+ggplot(icucomb,aes(group,fill=AGE_rebin3))+geom_bar(position = "fill")+coord_flip()+ylab("Percentage")+xlab("group number")+theme(legend.position="right")+theme(legend.title = element_blank())+ggtitle("Age bin changes 3")+theme(plot.title = element_text(hjust = 0.5))
 
 
 ```
