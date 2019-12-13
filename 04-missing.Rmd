@@ -1,5 +1,7 @@
 # Missing values
-```{r, include=FALSE}
+
+
+```{r}
 # These will install required packages if they are not already installed
 if (!require("ggplot2")) {
    install.packages("ggplot2")
@@ -65,7 +67,7 @@ if (!require("extracat")) {
    install.packages("extracat")
    library(lubridate)
 }
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 ```
 
 

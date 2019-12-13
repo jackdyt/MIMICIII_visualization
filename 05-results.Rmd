@@ -1,4 +1,5 @@
 # Results
+
 ```{r, include=FALSE}
 # These will install required packages if they are not already installed
 if (!require("ggplot2")) {
@@ -49,7 +50,7 @@ if (!require("ggmosaic")) {
    install.packages("ggmosaic")
    library(ggmosaic)
 }
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 ```
 
 

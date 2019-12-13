@@ -1,5 +1,6 @@
-# Data transformation
 
+
+# Data transformation
 
 ```{r, include=FALSE}
 # These will install required packages if they are not already installed
@@ -113,6 +114,7 @@ comb$mortality_withinthirtydays[is.na(comb$mortality_withinthirtydays)] <- 0
 ```
 add age to DF
 ```{r}
+
 #convert admittime,deathtime,dob for format year-month-day-hour-min-seconds 
 #to normal format
 admitdate <- ymd_hms(comb$ADMITTIME)
