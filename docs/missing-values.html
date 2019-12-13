@@ -185,9 +185,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## HAS_CHARTEVENTS_DATA 
 ##                    0</code></pre>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">missmap</span>(admissions)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">visna</span>(admissions, <span class="dt">sort=</span><span class="st">&quot;b&quot;</span>)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-20-2.png" width="672" />
+<p><img src="_main_files/figure-html/unnamed-chunk-11-2.png" width="672" />
 EDREGTIME, EDOUTTIME are time that the patient was registered and discharged from the emergency department. Basically, we are not interested in these columns, so they don’t have influence on our project.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">patients[patients<span class="op">==</span><span class="st">&quot;&quot;</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
 <a class="sourceLine" id="cb14-2" title="2"><span class="kw">colSums</span>(<span class="kw">is.na</span>(patients))</a></code></pre></div>
@@ -196,9 +196,9 @@ EDREGTIME, EDOUTTIME are time that the patient was registered and discharged fro
 ##     DOD_SSN EXPIRE_FLAG 
 ##       33142           0</code></pre>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">missmap</span>(patients)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw">visna</span>(patients, <span class="dt">sort=</span><span class="st">&quot;b&quot;</span>)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-21-2.png" width="672" />
+<p><img src="_main_files/figure-html/unnamed-chunk-12-2.png" width="672" />
 DOD is the date of death for the given patient. DOD_HOSP is the date of death as recorded in the hospital database. DOD_SSN is the date of death from the social security database. Is a patient do not die, then we don’t have data in these columns.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="co"># No missing data in icu_stay</span></a>
 <a class="sourceLine" id="cb18-2" title="2">icu_stay[icu_stay<span class="op">==</span><span class="st">&quot;&quot;</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
@@ -210,14 +210,14 @@ DOD is the date of death for the given patient. DOD_HOSP is the date of death as
 ##        OUTTIME            LOS 
 ##             10             10</code></pre>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="kw">missmap</span>(icu_stay)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="co">#No missing data in ICD</span></a>
 <a class="sourceLine" id="cb21-2" title="2">ICD[ICD<span class="op">==</span><span class="st">&quot;&quot;</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
 <a class="sourceLine" id="cb21-3" title="3"><span class="kw">colSums</span>(<span class="kw">is.na</span>(ICD))</a></code></pre></div>
 <pre><code>##     ROW_ID SUBJECT_ID    HADM_ID    SEQ_NUM  ICD9_CODE 
 ##          0          0          0         47         47</code></pre>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="kw">missmap</span>(ICD)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1">comb[comb<span class="op">==</span><span class="st">&quot;&quot;</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
 <a class="sourceLine" id="cb24-2" title="2"><span class="kw">colSums</span>(<span class="kw">is.na</span>(comb))</a></code></pre></div>
 <pre><code>##                 SUBJECT_ID                    HADM_ID 
@@ -237,9 +237,9 @@ DOD is the date of death for the given patient. DOD_HOSP is the date of death as
 ##                    DISEASE 
 ##                          0</code></pre>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1"><span class="kw">missmap</span>(comb)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="kw">visna</span>(comb, <span class="dt">sort=</span><span class="st">&quot;b&quot;</span>)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-24-2.png" width="672" />
+<p><img src="_main_files/figure-html/unnamed-chunk-15-2.png" width="672" />
 We can see that all the missing data are in DEATHTIME and mortality_time. This is because not all the patients die and those who are alive don’t have DEATHTIME and mortality_time.</p>
 
 </div>

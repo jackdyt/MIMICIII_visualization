@@ -9,4 +9,6 @@ Goldberger AL, Amaral LAN, Glass L, Hausdorff JM, Ivanov PCh, Mark RG, Mietus JE
 
 From the website "https://physionet.org/content/mimiciii/1.4/", MIMIC-III is a large, freely-available database comprising deidentified health-related data associated with over forty thousand patients who stayed in critical care units of the Beth Israel Deaconess Medical Center between 2001 and 2012. The database includes information such as demographics, vital sign measurements made at the bedside (~1 data point per hour), laboratory test results, procedures, medications, caregiver notes, imaging reports, and mortality (including post-hospital discharge).
 
-To compare the 30-day mortality after accepted to ICU and other factorts, we used the admissions table, patients table, ICUstays table and DIAGNOSES_ICD table. We merged different table by SUBJECT id, which is one admission to hospital and HADM id, which is unique to each patient.
+To compare the 30-day mortality after accepted to ICU and other factorts, we used the admissions table, patients table, ICUstays table and DIAGNOSES_ICD table. To explian the staying-time distribution difference of two patients groups, we also use admissions table and ICUstays table. We merged different table by SUBJECT id, which is one admission to hospital and HADM id, which is unique to each patient.
+
+

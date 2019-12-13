@@ -166,22 +166,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Finally, we want to see more detail between insurance type, admission location, and 30-Day Mortality. From the graphs, we can see that no matter the insurance type, transferred patients have the highest mortality rate, and no matter the admission rate, patients with Medicare only have the highest mortality rate.</p>
 <p>Therefore, we conclude that admission location and insurance type have impact on 30-Day Mortality of patients. Transferred patients and Medicare only patients have a higher mortality rate. This is partly because, as ICU patients, transferring from one hospital to a better hospital can waster a lot of precious time and cause higher Mortality. On the other hand, Medicare only patients tend to have lower income and lower living conditions, which may cause them to lose the best time to save lives.</p>
 
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" title="1"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb47-2" title="2"><span class="kw">library</span>(ggplot2)</a>
-<a class="sourceLine" id="cb47-3" title="3">df&lt;-<span class="kw">read.csv</span>(<span class="st">&quot;data/PATIENTS.csv&quot;</span>)</a>
-<a class="sourceLine" id="cb47-4" title="4">DeathY=df<span class="op">$</span>DOD_HOSP</a>
-<a class="sourceLine" id="cb47-5" title="5">BirthY=df<span class="op">$</span>DOB</a>
-<a class="sourceLine" id="cb47-6" title="6"><span class="co">#Data Cleaning</span></a>
-<a class="sourceLine" id="cb47-7" title="7">DeathY&lt;-<span class="kw">substr</span>(DeathY,<span class="dv">1</span>,<span class="dv">4</span>)</a>
-<a class="sourceLine" id="cb47-8" title="8">BirthY&lt;-<span class="kw">substr</span>(BirthY,<span class="dv">1</span>,<span class="dv">4</span>)</a>
-<a class="sourceLine" id="cb47-9" title="9">DeathY&lt;-<span class="kw">as.numeric</span>(DeathY)</a>
-<a class="sourceLine" id="cb47-10" title="10">BirthY&lt;-<span class="kw">as.numeric</span>(BirthY)</a>
-<a class="sourceLine" id="cb47-11" title="11">df<span class="op">$</span>DOD&lt;-DeathY</a>
-<a class="sourceLine" id="cb47-12" title="12">df<span class="op">$</span>DOB&lt;-BirthY</a>
-<a class="sourceLine" id="cb47-13" title="13">df&lt;-<span class="kw">na.omit</span>(df)</a>
-<a class="sourceLine" id="cb47-14" title="14">df<span class="op">$</span>LifeSpan&lt;-(df<span class="op">$</span>DOD<span class="op">-</span>df<span class="op">$</span>DOB) </a>
-<a class="sourceLine" id="cb47-15" title="15">df&lt;-<span class="kw">subset</span>(df,LifeSpan<span class="op">&lt;</span><span class="dv">100</span><span class="op">&amp;</span>LifeSpan<span class="op">&gt;</span><span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb47-16" title="16"><span class="co">#ggplot(df,aes(df$LifeSpan))+geom_bar()+facet_wrap(df$GENDER)</span></a></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb49-2" title="2"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb49-3" title="3">df&lt;-<span class="kw">read.csv</span>(<span class="st">&quot;data/PATIENTS.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb49-4" title="4">DeathY=df<span class="op">$</span>DOD_HOSP</a>
+<a class="sourceLine" id="cb49-5" title="5">BirthY=df<span class="op">$</span>DOB</a>
+<a class="sourceLine" id="cb49-6" title="6"><span class="co">#Data Cleaning</span></a>
+<a class="sourceLine" id="cb49-7" title="7">DeathY&lt;-<span class="kw">substr</span>(DeathY,<span class="dv">1</span>,<span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb49-8" title="8">BirthY&lt;-<span class="kw">substr</span>(BirthY,<span class="dv">1</span>,<span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb49-9" title="9">DeathY&lt;-<span class="kw">as.numeric</span>(DeathY)</a>
+<a class="sourceLine" id="cb49-10" title="10">BirthY&lt;-<span class="kw">as.numeric</span>(BirthY)</a>
+<a class="sourceLine" id="cb49-11" title="11">df<span class="op">$</span>DOD&lt;-DeathY</a>
+<a class="sourceLine" id="cb49-12" title="12">df<span class="op">$</span>DOB&lt;-BirthY</a>
+<a class="sourceLine" id="cb49-13" title="13">df&lt;-<span class="kw">na.omit</span>(df)</a>
+<a class="sourceLine" id="cb49-14" title="14">df<span class="op">$</span>LifeSpan&lt;-(df<span class="op">$</span>DOD<span class="op">-</span>df<span class="op">$</span>DOB) </a>
+<a class="sourceLine" id="cb49-15" title="15">df&lt;-<span class="kw">subset</span>(df,LifeSpan<span class="op">&lt;</span><span class="dv">100</span><span class="op">&amp;</span>LifeSpan<span class="op">&gt;</span><span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb49-16" title="16"><span class="co">#ggplot(df,aes(df$LifeSpan))+geom_bar()+facet_wrap(df$GENDER)</span></a></code></pre></div>
 
 </div>
             </section>
