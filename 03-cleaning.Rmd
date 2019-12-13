@@ -175,3 +175,106 @@ COM_DISEASE <- rbind(COM1,COM2,COM_OTHER,COM_BOTH)
 comb<-inner_join(comb,COM_DISEASE,by=c("SUBJECT_ID"))
 ```
 
+#Huimin Jiang
+
+```{r}
+LOS_of_35minus<-icucomb %>%
+   filter(SUBJECT_ID<=35000)%>%
+   drop_na()
+
+LOS_of_40plus<-icucomb %>%
+   filter(SUBJECT_ID>=40000)
+
+summary(LOS_of_35minus$LOS)
+summary(LOS_of_40plus$LOS)
+
+```
+
+```{r}
+ICUSTAYS_clean <-icu_stay[, c("SUBJECT_ID","HADM_ID", "ICUSTAY_ID", "FIRST_CAREUNIT","LAST_CAREUNIT", "LOS")]
+ICUSTAYS_clean <-ICUSTAYS_clean[!duplicated(ICUSTAYS_clean[, "SUBJECT_ID"]), ]
+
+icucomb<-inner_join(loc_race_insur,patient_gender,by="SUBJECT_ID")
+icucomb<-inner_join(ICUSTAYS_clean,icucomb, by=c("SUBJECT_ID","HADM_ID"))
+```
+#Join age and change the bins
+```{r}
+#convert admittime,deathtime,dob for format year-month-day-hour-min-seconds 
+#to normal format
+admitdate <- ymd_hms(icucomb$ADMITTIME)
+birthdate <- ymd_hms(icucomb$DOB)
+
+#take the difference, divide by 365, round it to get years as unit
+icucomb$age  <- round((difftime(admitdate,birthdate,units="days"))/365.242)
+icucomb$age <- as.numeric(icucomb$age)
+
+#create a new column named AGE to seperate age by range
+icucomb$AGE <- ifelse(icucomb$age<=18,"18-",
+            ifelse(icucomb$age>18 & icucomb$age<=45,"18-45",
+           ifelse(icucomb$age>45 & icucomb$age<=65,"46-65",
+           ifelse(icucomb$age>65 & icucomb$age<=80,"66-80",
+           ifelse(icucomb$age>80,"81+",
+                  NA)))))
+icucomb$AGE <- as.factor(icucomb$AGE)
+
+#change bins
+icucomb$AGE_rebin1 <- ifelse(icucomb$age<=5,"5-",
+            ifelse(icucomb$age>5 & icucomb$age<=10,"5-10",
+            ifelse(icucomb$age>10 & icucomb$age<=15,"10-15",
+            ifelse(icucomb$age>15 & icucomb$age<=20,"15-20",
+            ifelse(icucomb$age>20 & icucomb$age<=45,"20-45",
+           ifelse(icucomb$age>45 & icucomb$age<=65,"46-65",
+           ifelse(icucomb$age>65 & icucomb$age<=80,"66-80",
+           ifelse(icucomb$age>80,"81+",
+                  NA))))))))
+icucomb$AGE_rebin1 <- as.factor(icucomb$AGE_rebin1)
+
+#change bins again
+icucomb$AGE_rebin2 <- ifelse(icucomb$age<=1,"1-",
+            ifelse(icucomb$age>1 & icucomb$age<=2,"1-2",
+            ifelse(icucomb$age>2 & icucomb$age<=3,"2-3",
+            ifelse(icucomb$age>3 & icucomb$age<=4,"3-4",
+            ifelse(icucomb$age>4 & icucomb$age<=5,"4-5",
+           ifelse(icucomb$age>5 & icucomb$age<=65,"5-65",
+           ifelse(icucomb$age>65 & icucomb$age<=80,"66-80",
+           ifelse(icucomb$age>80,"81+",
+                  NA))))))))
+icucomb$AGE_rebin2 <- as.factor(icucomb$AGE_rebin2)
+#change bins last time
+icucomb$AGE_rebin3 <- ifelse(icucomb$age<=1,"1-",
+            ifelse(icucomb$age>1,"1+",
+                  NA))
+icucomb$AGE_rebin3 <- as.factor(icucomb$AGE_rebin3)
+
+#remove age
+icucomb$age <- NULL
+```
+
+```{r}
+
+icucomb$group<-0
+icucomb=within(icucomb,{group=ifelse(SUBJECT_ID<35000,"0","1")})
+
+```
+
+```{r}
+
+CUSTAYS_clean <-icu_stay[, c("SUBJECT_ID", "HADM_ID", "ICUSTAY_ID", "FIRST_CAREUNIT","LAST_CAREUNIT", "LOS")]
+
+ICUSTAYS_clean <-ICUSTAYS_clean[!duplicated(ICUSTAYS_clean[, "SUBJECT_ID"]), ]
+
+loc_race_insur_1 <- admissions[,c("SUBJECT_ID","DIAGNOSIS")]
+loc_race_insur_1 <- loc_race_insur_1[!duplicated(loc_race_insur_1$SUBJECT_ID),]
+
+icucomb_check<-inner_join(ICUSTAYS_clean,loc_race_insur_1, by=c("SUBJECT_ID"))
+icucomb_check$newborn <- 0
+icucomb_check=within(icucomb_check,{newborn=ifelse(DIAGNOSIS=="NEWBORN","NEWBORN","NOT NEWBORN")})
+
+icucomb_check$group<-0
+icucomb_check=within(icucomb_check,{group=ifelse(SUBJECT_ID<35000,"0","1")})
+
+```
+
+
+
+
