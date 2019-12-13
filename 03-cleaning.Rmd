@@ -177,18 +177,7 @@ comb<-inner_join(comb,COM_DISEASE,by=c("SUBJECT_ID"))
 
 #Huimin Jiang
 
-```{r}
-LOS_of_35minus<-icucomb %>%
-   filter(SUBJECT_ID<=35000)%>%
-   drop_na()
 
-LOS_of_40plus<-icucomb %>%
-   filter(SUBJECT_ID>=40000)
-
-summary(LOS_of_35minus$LOS)
-summary(LOS_of_40plus$LOS)
-
-```
 
 ```{r}
 ICUSTAYS_clean <-icu_stay[, c("SUBJECT_ID","HADM_ID", "ICUSTAY_ID", "FIRST_CAREUNIT","LAST_CAREUNIT", "LOS")]
@@ -197,6 +186,8 @@ ICUSTAYS_clean <-ICUSTAYS_clean[!duplicated(ICUSTAYS_clean[, "SUBJECT_ID"]), ]
 icucomb<-inner_join(loc_race_insur,patient_gender,by="SUBJECT_ID")
 icucomb<-inner_join(ICUSTAYS_clean,icucomb, by=c("SUBJECT_ID","HADM_ID"))
 ```
+
+
 #Join age and change the bins
 ```{r}
 #convert admittime,deathtime,dob for format year-month-day-hour-min-seconds 
