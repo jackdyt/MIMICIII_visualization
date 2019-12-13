@@ -55,7 +55,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 
-Yaotian Dai
+Evaluate the factors that have an impact on 30-Day Mortality of Patients Admitted to the Intensive Care Unit (ICU)
 ```{r}
 #Some basic graphs
 ggplot(comb,aes(x = GENDER))+geom_bar()+
