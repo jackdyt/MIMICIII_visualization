@@ -21,7 +21,6 @@
   
   
 
-<meta name="author" content="Yaotian Dai" />
 
 
 <meta name="date" content="2019-11-23" />
@@ -134,11 +133,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
 <li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a></li>
 <li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
-<li class="chapter" data-level="4" data-path="data-transformation-1.html"><a href="data-transformation-1.html"><i class="fa fa-check"></i><b>4</b> Data transformation</a></li>
-<li class="chapter" data-level="5" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>5</b> Missing values</a></li>
-<li class="chapter" data-level="6" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>6</b> Results</a></li>
-<li class="chapter" data-level="7" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>7</b> Interactive component</a></li>
-<li class="chapter" data-level="8" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>8</b> Conclusion</a></li>
+<li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a></li>
+<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a></li>
+<li class="chapter" data-level="6" data-path="interactive.html"><a href="interactive.html"><i class="fa fa-check"></i><b>6</b> interactive</a></li>
+<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -166,7 +164,7 @@ Johnson, A., Pollard, T., Mark, R. (2016). MIMIC-III Clinical Database. PhysioNe
 <p>Johnson, A. E. W., Pollard, T. J., Shen, L., Lehman, L. H., Feng, M., Ghassemi, M., Moody, B., Szolovits, P., Celi, L. A., &amp; Mark, R. G. (2016). MIMIC-III, a freely accessible critical care database. Scientific Data, 3, 160035.</p>
 <p>Goldberger AL, Amaral LAN, Glass L, Hausdorff JM, Ivanov PCh, Mark RG, Mietus JE, Moody GB, Peng C-K, Stanley HE. PhysioBank, PhysioToolkit, and PhysioNet: Components of a New Research Resource for Complex Physiologic Signals (2003). Circulation. 101(23):e215-e220.</p>
 <p>From the website “<a href="https://physionet.org/content/mimiciii/1.4/" class="uri">https://physionet.org/content/mimiciii/1.4/</a>”, MIMIC-III is a large, freely-available database comprising deidentified health-related data associated with over forty thousand patients who stayed in critical care units of the Beth Israel Deaconess Medical Center between 2001 and 2012. The database includes information such as demographics, vital sign measurements made at the bedside (~1 data point per hour), laboratory test results, procedures, medications, caregiver notes, imaging reports, and mortality (including post-hospital discharge).</p>
-<p>To compare the 30-day mortality after accepted to ICU and other factorts, we used the admissions table, patients table, ICUstays table and DIAGNOSES_ICD table. We merged different table by SUBJECT id, which is one admission to hospital and HADM id, which is unique to each patient.</p>
+<p>To compare the 30-day mortality after accepted to ICU and other factorts, we used the admissions table, patients table, ICUstays table and DIAGNOSES_ICD table. To explian the staying-time distribution difference of two patients groups, we also use admissions table and ICUstays table. We merged different table by SUBJECT id, which is one admission to hospital and HADM id, which is unique to each patient.</p>
 
 </div>
             </section>

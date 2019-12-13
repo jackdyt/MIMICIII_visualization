@@ -21,7 +21,6 @@
   
   
 
-<meta name="author" content="Yaotian Dai" />
 
 
 <meta name="date" content="2019-11-23" />
@@ -32,7 +31,7 @@
   
   
 <link rel="prev" href="data-sources.html"/>
-<link rel="next" href="data-transformation-1.html"/>
+<link rel="next" href="missing-values.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -134,11 +133,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
 <li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a></li>
 <li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
-<li class="chapter" data-level="4" data-path="data-transformation-1.html"><a href="data-transformation-1.html"><i class="fa fa-check"></i><b>4</b> Data transformation</a></li>
-<li class="chapter" data-level="5" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>5</b> Missing values</a></li>
-<li class="chapter" data-level="6" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>6</b> Results</a></li>
-<li class="chapter" data-level="7" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>7</b> Interactive component</a></li>
-<li class="chapter" data-level="8" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>8</b> Conclusion</a></li>
+<li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a></li>
+<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a></li>
+<li class="chapter" data-level="6" data-path="interactive.html"><a href="interactive.html"><i class="fa fa-check"></i><b>6</b> interactive</a></li>
+<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -160,25 +158,175 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="data-transformation" class="section level1">
 <h1><span class="header-section-number">Chapter 3</span> Data transformation</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(readr)</a>
-<a class="sourceLine" id="cb1-2" title="2">CALLOUT &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/CALLOUT.csv&quot;</span>)</a></code></pre></div>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_double(),
-##   SUBMIT_CAREUNIT = col_character(),
-##   CURR_CAREUNIT = col_character(),
-##   CALLOUT_SERVICE = col_character(),
-##   CALLOUT_STATUS = col_character(),
-##   CALLOUT_OUTCOME = col_character(),
-##   ACKNOWLEDGE_STATUS = col_character(),
-##   CREATETIME = col_datetime(format = &quot;&quot;),
-##   UPDATETIME = col_datetime(format = &quot;&quot;),
-##   ACKNOWLEDGETIME = col_datetime(format = &quot;&quot;),
-##   OUTCOMETIME = col_datetime(format = &quot;&quot;),
-##   FIRSTRESERVATIONTIME = col_datetime(format = &quot;&quot;),
-##   CURRENTRESERVATIONTIME = col_datetime(format = &quot;&quot;)
-## )</code></pre>
-<pre><code>## See spec(...) for full column specifications.</code></pre>
+<p>read in data</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co"># Read in synthetic data</span></a>
+<a class="sourceLine" id="cb1-2" title="2"></a>
+<a class="sourceLine" id="cb1-3" title="3">admissions&lt;-<span class="kw">read.csv</span>(<span class="st">&quot;data/ADMISSIONS.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb1-4" title="4">patients&lt;-<span class="kw">read.csv</span>(<span class="st">&quot;data/PATIENTS.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="co">#admissions &lt;- admissions[complete.cases(admissions),]</span></a>
+<a class="sourceLine" id="cb1-6" title="6"><span class="co">#patients &lt;- patients[complete.cases(patients),]</span></a>
+<a class="sourceLine" id="cb1-7" title="7">icu_stay &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/ICUSTAYS.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb1-8" title="8"><span class="co">#icu_stay &lt;- icu_stay[complete.cases(icu_stay), ]</span></a></code></pre></div>
+<p>create the combine DF and add location, race, insurance, gender, first service</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">fst_service &lt;-<span class="st"> </span>icu_stay[, <span class="kw">c</span>(<span class="st">&quot;SUBJECT_ID&quot;</span>, <span class="st">&quot;HADM_ID&quot;</span>, <span class="st">&quot;ICUSTAY_ID&quot;</span>, <span class="st">&quot;FIRST_CAREUNIT&quot;</span>, <span class="st">&quot;LOS&quot;</span>)]</a>
+<a class="sourceLine" id="cb2-2" title="2"></a>
+<a class="sourceLine" id="cb2-3" title="3">loc_race_insur &lt;-<span class="st"> </span>admissions[,<span class="kw">c</span>(<span class="st">&quot;SUBJECT_ID&quot;</span>,<span class="st">&quot;HADM_ID&quot;</span>,<span class="st">&quot;ADMISSION_LOCATION&quot;</span>,<span class="st">&quot;INSURANCE&quot;</span>,<span class="st">&quot;ETHNICITY&quot;</span>,<span class="st">&quot;ADMITTIME&quot;</span>,<span class="st">&quot;DEATHTIME&quot;</span>)]</a>
+<a class="sourceLine" id="cb2-4" title="4">patient_gender &lt;-<span class="st"> </span>patients[,<span class="kw">c</span>(<span class="st">&quot;SUBJECT_ID&quot;</span>,<span class="st">&quot;GENDER&quot;</span>,<span class="st">&quot;DOB&quot;</span>)]</a>
+<a class="sourceLine" id="cb2-5" title="5">loc_race_insur<span class="op">$</span>ADMISSION_LOCATION&lt;-<span class="kw">fct_collapse</span>(loc_race_insur<span class="op">$</span>ADMISSION_LOCATION,</a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="dt">Emergencyroom =</span><span class="kw">c</span>(<span class="st">&quot;EMERGENCY ROOM ADMIT&quot;</span>),</a>
+<a class="sourceLine" id="cb2-7" title="7"><span class="dt">Transfer=</span><span class="kw">c</span>(<span class="st">&quot;TRANSFER FROM HOSP/EXTRAM&quot;</span>,<span class="st">&quot;TRANSFER FROM OTHER HEALT&quot;</span>,<span class="st">&quot;TRANSFER FROM SKILLED NUR&quot;</span>,<span class="st">&quot;TRSF WITHIN THIS FACILITY&quot;</span>),</a>
+<a class="sourceLine" id="cb2-8" title="8"><span class="dt">Outpatient=</span><span class="kw">c</span>(<span class="st">&quot;** INFO NOT AVAILABLE **&quot;</span>,<span class="st">&quot;CLINIC REFERRAL/PREMATURE&quot;</span>,<span class="st">&quot;HMO REFERRAL/SICK&quot;</span>,<span class="st">&quot;PHYS REFERRAL/NORMAL DELI&quot;</span>))</a>
+<a class="sourceLine" id="cb2-9" title="9">loc_race_insur<span class="op">$</span>ETHNICITY&lt;-<span class="kw">fct_collapse</span>(loc_race_insur<span class="op">$</span>ETHNICITY,</a>
+<a class="sourceLine" id="cb2-10" title="10"><span class="dt">Asian=</span><span class="kw">c</span>(<span class="kw">levels</span>(loc_race_insur<span class="op">$</span>ETHNICITY)[<span class="dv">3</span><span class="op">:</span><span class="dv">12</span>]),</a>
+<a class="sourceLine" id="cb2-11" title="11"><span class="dt">Black=</span><span class="kw">c</span>(<span class="kw">levels</span>(loc_race_insur<span class="op">$</span>ETHNICITY)[<span class="dv">13</span><span class="op">:</span><span class="dv">16</span>]),</a>
+<a class="sourceLine" id="cb2-12" title="12"><span class="dt">White=</span><span class="kw">c</span>(<span class="kw">levels</span>(loc_race_insur<span class="op">$</span>ETHNICITY)[<span class="dv">37</span><span class="op">:</span><span class="dv">41</span>]),</a>
+<a class="sourceLine" id="cb2-13" title="13"><span class="dt">Unknown=</span><span class="kw">c</span>(<span class="kw">levels</span>(loc_race_insur<span class="op">$</span>ETHNICITY)[<span class="dv">35</span><span class="op">:</span><span class="dv">36</span>]),</a>
+<a class="sourceLine" id="cb2-14" title="14"><span class="dt">Other=</span><span class="kw">c</span>(<span class="kw">levels</span>(loc_race_insur<span class="op">$</span>ETHNICITY)[<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>,<span class="dv">17</span><span class="op">:</span><span class="dv">34</span>)]))</a>
+<a class="sourceLine" id="cb2-15" title="15">loc_race_insur<span class="op">$</span>INSURANCE&lt;-<span class="kw">fct_collapse</span>(loc_race_insur<span class="op">$</span>INSURANCE,<span class="dt">Medicareonly=</span><span class="kw">c</span>(<span class="st">&quot;Medicare&quot;</span>), <span class="dt">Private=</span><span class="kw">c</span>(<span class="st">&quot;Private&quot;</span> ,<span class="st">&quot;Self Pay&quot;</span>), <span class="st">&quot;Medicaid/other&quot;</span>=<span class="kw">c</span>(<span class="st">&quot;Government&quot;</span>, <span class="st">&quot;Medicaid&quot;</span>))</a>
+<a class="sourceLine" id="cb2-16" title="16">ms_fst_service &lt;-<span class="st"> </span>fst_service[fst_service<span class="op">$</span>FIRST_CAREUNIT <span class="op">==</span><span class="st"> &quot;MICU&quot;</span> <span class="op">|</span><span class="st"> </span>fst_service<span class="op">$</span>FIRST_CAREUNIT <span class="op">==</span><span class="st"> &quot;SICU&quot;</span>, ]</a>
+<a class="sourceLine" id="cb2-17" title="17">ms_fst_service &lt;-<span class="st"> </span>ms_fst_service[ms_fst_service<span class="op">$</span>LOS <span class="op">&gt;=</span><span class="st"> </span><span class="dv">1</span><span class="op">/</span><span class="dv">6</span>, ]</a>
+<a class="sourceLine" id="cb2-18" title="18">ms_fst_service &lt;-<span class="st"> </span>ms_fst_service[, <span class="kw">c</span>(<span class="st">&quot;SUBJECT_ID&quot;</span>, <span class="st">&quot;HADM_ID&quot;</span>, <span class="st">&quot;ICUSTAY_ID&quot;</span>, <span class="st">&quot;FIRST_CAREUNIT&quot;</span>)]</a>
+<a class="sourceLine" id="cb2-19" title="19">ms_fst_service &lt;-<span class="st"> </span>ms_fst_service[<span class="op">!</span><span class="kw">duplicated</span>(ms_fst_service[, <span class="st">&quot;SUBJECT_ID&quot;</span>]), ]</a>
+<a class="sourceLine" id="cb2-20" title="20">loc_race_insur&lt;-loc_race_insur[<span class="op">!</span><span class="kw">duplicated</span>(loc_race_insur<span class="op">$</span>SUBJECT_ID),]</a>
+<a class="sourceLine" id="cb2-21" title="21"></a>
+<a class="sourceLine" id="cb2-22" title="22">comb&lt;-<span class="kw">inner_join</span>(loc_race_insur,patient_gender,<span class="dt">by=</span><span class="st">&quot;SUBJECT_ID&quot;</span>)</a>
+<a class="sourceLine" id="cb2-23" title="23">comb &lt;-<span class="st"> </span><span class="kw">inner_join</span>(ms_fst_service,comb, <span class="dt">by=</span><span class="kw">c</span>(<span class="st">&quot;HADM_ID&quot;</span>,<span class="st">&quot;SUBJECT_ID&quot;</span>))</a></code></pre></div>
+<p>add 30 day mortailty to DF</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">death_time&lt;-<span class="kw">ymd_hms</span>(comb<span class="op">$</span>DEATHTIME)</a>
+<a class="sourceLine" id="cb3-2" title="2">admit_time&lt;-<span class="kw">ymd_hms</span>(comb<span class="op">$</span>ADMITTIME)</a>
+<a class="sourceLine" id="cb3-3" title="3">mortality_thirty&lt;-(death_time<span class="op">-</span>admit_time)<span class="op">/</span><span class="dv">86400</span></a>
+<a class="sourceLine" id="cb3-4" title="4">comb<span class="op">$</span>mortality_time&lt;-mortality_thirty</a>
+<a class="sourceLine" id="cb3-5" title="5">comb=<span class="kw">within</span>(comb,{mortality_withinthirtydays=<span class="kw">ifelse</span>(mortality_time<span class="op">&lt;</span><span class="dv">30</span>,<span class="st">&quot;1&quot;</span>,<span class="st">&quot;0&quot;</span>)})</a>
+<a class="sourceLine" id="cb3-6" title="6">comb<span class="op">$</span>mortality_withinthirtydays[<span class="kw">is.na</span>(comb<span class="op">$</span>mortality_withinthirtydays)] &lt;-<span class="st"> </span><span class="dv">0</span></a></code></pre></div>
+<p>add age to DF</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co">#convert admittime,deathtime,dob for format year-month-day-hour-min-seconds </span></a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="co">#to normal format</span></a>
+<a class="sourceLine" id="cb4-3" title="3">admitdate &lt;-<span class="st"> </span><span class="kw">ymd_hms</span>(comb<span class="op">$</span>ADMITTIME)</a>
+<a class="sourceLine" id="cb4-4" title="4">deathdate &lt;-<span class="st"> </span><span class="kw">ymd_hms</span>(comb<span class="op">$</span>DEATHTIME)</a>
+<a class="sourceLine" id="cb4-5" title="5">birthdate &lt;-<span class="st"> </span><span class="kw">ymd_hms</span>(comb<span class="op">$</span>DOB)</a>
+<a class="sourceLine" id="cb4-6" title="6"></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="co">#take the difference, divide by 365, round it to get years as unit</span></a>
+<a class="sourceLine" id="cb4-8" title="8">comb<span class="op">$</span>age  &lt;-<span class="st"> </span><span class="kw">round</span>((<span class="kw">difftime</span>(admitdate,birthdate,<span class="dt">units=</span><span class="st">&quot;days&quot;</span>))<span class="op">/</span><span class="fl">365.242</span>)</a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="co">#comb$timedf &lt;- round((difftime(deathdate,birthdate,units=&quot;days&quot;))/365.242)</span></a>
+<a class="sourceLine" id="cb4-10" title="10"></a>
+<a class="sourceLine" id="cb4-11" title="11"><span class="co">#remove rows when people&#39;s age under 18</span></a>
+<a class="sourceLine" id="cb4-12" title="12">comb &lt;-<span class="st"> </span><span class="kw">subset</span>(comb, comb<span class="op">$</span>age<span class="op">&gt;=</span><span class="dv">18</span>)</a>
+<a class="sourceLine" id="cb4-13" title="13">comb<span class="op">$</span>age &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(comb<span class="op">$</span>age)</a>
+<a class="sourceLine" id="cb4-14" title="14"></a>
+<a class="sourceLine" id="cb4-15" title="15"><span class="co">#create a new column named AGE to seperate age by range</span></a>
+<a class="sourceLine" id="cb4-16" title="16">comb<span class="op">$</span>AGE &lt;-<span class="st"> </span><span class="kw">ifelse</span>(comb<span class="op">$</span>age<span class="op">&lt;</span><span class="dv">46</span>,<span class="st">&quot;&lt;=45&quot;</span>,</a>
+<a class="sourceLine" id="cb4-17" title="17">           <span class="kw">ifelse</span>(comb<span class="op">$</span>age<span class="op">&gt;</span><span class="dv">45</span> <span class="op">&amp;</span><span class="st"> </span>comb<span class="op">$</span>age<span class="op">&lt;</span><span class="dv">66</span>,<span class="st">&quot;46-65&quot;</span>,</a>
+<a class="sourceLine" id="cb4-18" title="18">           <span class="kw">ifelse</span>(comb<span class="op">$</span>age<span class="op">&gt;</span><span class="dv">65</span> <span class="op">&amp;</span><span class="st"> </span>comb<span class="op">$</span>age<span class="op">&lt;</span><span class="dv">81</span>,<span class="st">&quot;66-80&quot;</span>,</a>
+<a class="sourceLine" id="cb4-19" title="19">           <span class="kw">ifelse</span>(comb<span class="op">$</span>age<span class="op">&gt;</span><span class="dv">80</span>,<span class="st">&quot;81+&quot;</span>,</a>
+<a class="sourceLine" id="cb4-20" title="20">                  <span class="ot">NA</span>))))</a>
+<a class="sourceLine" id="cb4-21" title="21">comb<span class="op">$</span>AGE &lt;-<span class="st"> </span><span class="kw">as.factor</span>(comb<span class="op">$</span>AGE)</a>
+<a class="sourceLine" id="cb4-22" title="22"></a>
+<a class="sourceLine" id="cb4-23" title="23"><span class="co">#remove age</span></a>
+<a class="sourceLine" id="cb4-24" title="24">comb<span class="op">$</span>age &lt;-<span class="st"> </span><span class="ot">NULL</span></a></code></pre></div>
+<p>add comorbidities to DF</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">ICD&lt;-<span class="kw">read.csv</span>(<span class="st">&quot;data/DIAGNOSES_ICD.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb5-2" title="2">ICD&lt;-ICD[<span class="kw">complete.cases</span>(ICD),]</a>
+<a class="sourceLine" id="cb5-3" title="3">COM&lt;-ICD[,<span class="kw">c</span>(<span class="st">&quot;SUBJECT_ID&quot;</span>,<span class="st">&quot;ICD9_CODE&quot;</span>)]</a>
+<a class="sourceLine" id="cb5-4" title="4"></a>
+<a class="sourceLine" id="cb5-5" title="5"></a>
+<a class="sourceLine" id="cb5-6" title="6">COM_CHF &lt;-<span class="st"> </span>COM[COM<span class="op">$</span>ICD9_CODE <span class="op">%in%</span><span class="st">  </span><span class="kw">c</span>(<span class="st">&quot;39891&quot;</span>, <span class="st">&quot;40201&quot;</span>, <span class="st">&quot;40211&quot;</span>, <span class="st">&quot;40291&quot;</span>,<span class="st">&quot;40401&quot;</span>, <span class="st">&quot;40403&quot;</span>, <span class="st">&quot;40411&quot;</span>, <span class="st">&quot;40413&quot;</span>,<span class="st">&quot;40491&quot;</span>, <span class="st">&quot;40493&quot;</span>, <span class="dv">4254</span><span class="op">:</span><span class="dv">4259</span>,<span class="dv">4280</span><span class="op">:</span><span class="dv">4289</span>) ,]</a>
+<a class="sourceLine" id="cb5-7" title="7">COM_CHF&lt;-COM_CHF[<span class="op">!</span><span class="kw">duplicated</span>(COM_CHF<span class="op">$</span>SUBJECT_ID),]</a>
+<a class="sourceLine" id="cb5-8" title="8">COM_CHF<span class="op">$</span>DISEASE &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="st">&quot;Congestive heart failure&quot;</span>)</a>
+<a class="sourceLine" id="cb5-9" title="9">COM_CHF&lt;-<span class="st"> </span>COM_CHF[,<span class="kw">c</span>(<span class="st">&quot;SUBJECT_ID&quot;</span>,<span class="st">&quot;DISEASE&quot;</span>)]</a>
+<a class="sourceLine" id="cb5-10" title="10"></a>
+<a class="sourceLine" id="cb5-11" title="11"></a>
+<a class="sourceLine" id="cb5-12" title="12">COM_AM &lt;-<span class="st"> </span>COM[COM<span class="op">$</span>ICD9_CODE <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">1400</span><span class="op">:</span><span class="dv">1729</span>, <span class="dv">1740</span><span class="op">:</span><span class="dv">1958</span>,<span class="dv">2000</span><span class="op">:</span><span class="dv">2089</span>, <span class="st">&quot;2386&quot;</span>) ,]</a>
+<a class="sourceLine" id="cb5-13" title="13">COM_AM&lt;-COM_AM[<span class="op">!</span><span class="kw">duplicated</span>(COM_AM<span class="op">$</span>SUBJECT_ID),]</a>
+<a class="sourceLine" id="cb5-14" title="14">COM_AM<span class="op">$</span>DISEASE &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="st">&quot;Any malignancy&quot;</span>)</a>
+<a class="sourceLine" id="cb5-15" title="15">COM_AM&lt;-<span class="st"> </span>COM_AM[,<span class="kw">c</span>(<span class="st">&quot;SUBJECT_ID&quot;</span>,<span class="st">&quot;DISEASE&quot;</span>)]</a>
+<a class="sourceLine" id="cb5-16" title="16"></a>
+<a class="sourceLine" id="cb5-17" title="17">COM_BOTH &lt;-<span class="kw">inner_join</span>(COM_AM,COM_CHF,<span class="dt">by=</span><span class="kw">c</span>(<span class="st">&quot;SUBJECT_ID&quot;</span>))</a>
+<a class="sourceLine" id="cb5-18" title="18">COM_BOTH&lt;-<span class="st"> </span>COM_BOTH[,<span class="kw">c</span>(<span class="st">&quot;SUBJECT_ID&quot;</span>,<span class="st">&quot;DISEASE.x&quot;</span>,<span class="st">&quot;DISEASE.y&quot;</span>)]</a>
+<a class="sourceLine" id="cb5-19" title="19">COM_BOTH<span class="op">$</span>DISEASE &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="st">&quot;BOTH&quot;</span>)</a>
+<a class="sourceLine" id="cb5-20" title="20">COM_BOTH&lt;-<span class="st"> </span>COM_BOTH[,<span class="kw">c</span>(<span class="st">&quot;SUBJECT_ID&quot;</span>,<span class="st">&quot;DISEASE&quot;</span>)]</a>
+<a class="sourceLine" id="cb5-21" title="21"></a>
+<a class="sourceLine" id="cb5-22" title="22">COM_ALL &lt;-<span class="st"> </span><span class="kw">full_join</span>(COM_AM,COM_CHF,<span class="dt">by=</span><span class="st">&quot;SUBJECT_ID&quot;</span>)</a>
+<a class="sourceLine" id="cb5-23" title="23">COM_OTHER &lt;-<span class="st"> </span><span class="kw">anti_join</span>(COM,COM_ALL,<span class="dt">by=</span><span class="st">&quot;SUBJECT_ID&quot;</span>)</a>
+<a class="sourceLine" id="cb5-24" title="24">COM_OTHER &lt;-<span class="st"> </span>COM_OTHER[<span class="op">!</span><span class="kw">duplicated</span>(COM_OTHER<span class="op">$</span>SUBJECT_ID),]</a>
+<a class="sourceLine" id="cb5-25" title="25">COM_OTHER<span class="op">$</span>DISEASE &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="st">&quot;OTHER&quot;</span>)</a>
+<a class="sourceLine" id="cb5-26" title="26">COM_OTHER&lt;-<span class="st"> </span>COM_OTHER[,<span class="kw">c</span>(<span class="st">&quot;SUBJECT_ID&quot;</span>,<span class="st">&quot;DISEASE&quot;</span>)]</a>
+<a class="sourceLine" id="cb5-27" title="27"></a>
+<a class="sourceLine" id="cb5-28" title="28">COM1 &lt;-<span class="st"> </span><span class="kw">anti_join</span>(COM_CHF,COM_BOTH,<span class="dt">by=</span><span class="st">&quot;SUBJECT_ID&quot;</span>)</a>
+<a class="sourceLine" id="cb5-29" title="29">COM2 &lt;-<span class="st"> </span><span class="kw">anti_join</span>(COM_AM,COM_BOTH,<span class="dt">by=</span><span class="st">&quot;SUBJECT_ID&quot;</span>)</a>
+<a class="sourceLine" id="cb5-30" title="30"></a>
+<a class="sourceLine" id="cb5-31" title="31">COM_DISEASE &lt;-<span class="st"> </span><span class="kw">rbind</span>(COM1,COM2,COM_OTHER,COM_BOTH)</a>
+<a class="sourceLine" id="cb5-32" title="32"></a>
+<a class="sourceLine" id="cb5-33" title="33">comb&lt;-<span class="kw">inner_join</span>(comb,COM_DISEASE,<span class="dt">by=</span><span class="kw">c</span>(<span class="st">&quot;SUBJECT_ID&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">ICUSTAYS_clean &lt;-icu_stay[, <span class="kw">c</span>(<span class="st">&quot;SUBJECT_ID&quot;</span>,<span class="st">&quot;HADM_ID&quot;</span>, <span class="st">&quot;ICUSTAY_ID&quot;</span>, <span class="st">&quot;FIRST_CAREUNIT&quot;</span>,<span class="st">&quot;LAST_CAREUNIT&quot;</span>, <span class="st">&quot;LOS&quot;</span>)]</a>
+<a class="sourceLine" id="cb6-2" title="2">ICUSTAYS_clean &lt;-ICUSTAYS_clean[<span class="op">!</span><span class="kw">duplicated</span>(ICUSTAYS_clean[, <span class="st">&quot;SUBJECT_ID&quot;</span>]), ]</a>
+<a class="sourceLine" id="cb6-3" title="3"></a>
+<a class="sourceLine" id="cb6-4" title="4">icucomb&lt;-<span class="kw">inner_join</span>(loc_race_insur,patient_gender,<span class="dt">by=</span><span class="st">&quot;SUBJECT_ID&quot;</span>)</a>
+<a class="sourceLine" id="cb6-5" title="5">icucomb&lt;-<span class="kw">inner_join</span>(ICUSTAYS_clean,icucomb, <span class="dt">by=</span><span class="kw">c</span>(<span class="st">&quot;SUBJECT_ID&quot;</span>,<span class="st">&quot;HADM_ID&quot;</span>))</a></code></pre></div>
+<p>Join age and change the bins</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="co">#convert admittime,deathtime,dob for format year-month-day-hour-min-seconds </span></a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="co">#to normal format</span></a>
+<a class="sourceLine" id="cb7-3" title="3">admitdate &lt;-<span class="st"> </span><span class="kw">ymd_hms</span>(icucomb<span class="op">$</span>ADMITTIME)</a>
+<a class="sourceLine" id="cb7-4" title="4">birthdate &lt;-<span class="st"> </span><span class="kw">ymd_hms</span>(icucomb<span class="op">$</span>DOB)</a>
+<a class="sourceLine" id="cb7-5" title="5"></a>
+<a class="sourceLine" id="cb7-6" title="6"><span class="co">#take the difference, divide by 365, round it to get years as unit</span></a>
+<a class="sourceLine" id="cb7-7" title="7">icucomb<span class="op">$</span>age  &lt;-<span class="st"> </span><span class="kw">round</span>((<span class="kw">difftime</span>(admitdate,birthdate,<span class="dt">units=</span><span class="st">&quot;days&quot;</span>))<span class="op">/</span><span class="fl">365.242</span>)</a>
+<a class="sourceLine" id="cb7-8" title="8">icucomb<span class="op">$</span>age &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(icucomb<span class="op">$</span>age)</a>
+<a class="sourceLine" id="cb7-9" title="9"></a>
+<a class="sourceLine" id="cb7-10" title="10"><span class="co">#create a new column named AGE to seperate age by range</span></a>
+<a class="sourceLine" id="cb7-11" title="11">icucomb<span class="op">$</span>AGE &lt;-<span class="st"> </span><span class="kw">ifelse</span>(icucomb<span class="op">$</span>age<span class="op">&lt;=</span><span class="dv">18</span>,<span class="st">&quot;18-&quot;</span>,</a>
+<a class="sourceLine" id="cb7-12" title="12">            <span class="kw">ifelse</span>(icucomb<span class="op">$</span>age<span class="op">&gt;</span><span class="dv">18</span> <span class="op">&amp;</span><span class="st"> </span>icucomb<span class="op">$</span>age<span class="op">&lt;=</span><span class="dv">45</span>,<span class="st">&quot;18-45&quot;</span>,</a>
+<a class="sourceLine" id="cb7-13" title="13">           <span class="kw">ifelse</span>(icucomb<span class="op">$</span>age<span class="op">&gt;</span><span class="dv">45</span> <span class="op">&amp;</span><span class="st"> </span>icucomb<span class="op">$</span>age<span class="op">&lt;=</span><span class="dv">65</span>,<span class="st">&quot;46-65&quot;</span>,</a>
+<a class="sourceLine" id="cb7-14" title="14">           <span class="kw">ifelse</span>(icucomb<span class="op">$</span>age<span class="op">&gt;</span><span class="dv">65</span> <span class="op">&amp;</span><span class="st"> </span>icucomb<span class="op">$</span>age<span class="op">&lt;=</span><span class="dv">80</span>,<span class="st">&quot;66-80&quot;</span>,</a>
+<a class="sourceLine" id="cb7-15" title="15">           <span class="kw">ifelse</span>(icucomb<span class="op">$</span>age<span class="op">&gt;</span><span class="dv">80</span>,<span class="st">&quot;81+&quot;</span>,</a>
+<a class="sourceLine" id="cb7-16" title="16">                  <span class="ot">NA</span>)))))</a>
+<a class="sourceLine" id="cb7-17" title="17">icucomb<span class="op">$</span>AGE &lt;-<span class="st"> </span><span class="kw">as.factor</span>(icucomb<span class="op">$</span>AGE)</a>
+<a class="sourceLine" id="cb7-18" title="18"></a>
+<a class="sourceLine" id="cb7-19" title="19"><span class="co">#change bins</span></a>
+<a class="sourceLine" id="cb7-20" title="20">icucomb<span class="op">$</span>AGE_rebin1 &lt;-<span class="st"> </span><span class="kw">ifelse</span>(icucomb<span class="op">$</span>age<span class="op">&lt;=</span><span class="dv">5</span>,<span class="st">&quot;5-&quot;</span>,</a>
+<a class="sourceLine" id="cb7-21" title="21">            <span class="kw">ifelse</span>(icucomb<span class="op">$</span>age<span class="op">&gt;</span><span class="dv">5</span> <span class="op">&amp;</span><span class="st"> </span>icucomb<span class="op">$</span>age<span class="op">&lt;=</span><span class="dv">10</span>,<span class="st">&quot;5-10&quot;</span>,</a>
+<a class="sourceLine" id="cb7-22" title="22">            <span class="kw">ifelse</span>(icucomb<span class="op">$</span>age<span class="op">&gt;</span><span class="dv">10</span> <span class="op">&amp;</span><span class="st"> </span>icucomb<span class="op">$</span>age<span class="op">&lt;=</span><span class="dv">15</span>,<span class="st">&quot;10-15&quot;</span>,</a>
+<a class="sourceLine" id="cb7-23" title="23">            <span class="kw">ifelse</span>(icucomb<span class="op">$</span>age<span class="op">&gt;</span><span class="dv">15</span> <span class="op">&amp;</span><span class="st"> </span>icucomb<span class="op">$</span>age<span class="op">&lt;=</span><span class="dv">20</span>,<span class="st">&quot;15-20&quot;</span>,</a>
+<a class="sourceLine" id="cb7-24" title="24">            <span class="kw">ifelse</span>(icucomb<span class="op">$</span>age<span class="op">&gt;</span><span class="dv">20</span> <span class="op">&amp;</span><span class="st"> </span>icucomb<span class="op">$</span>age<span class="op">&lt;=</span><span class="dv">45</span>,<span class="st">&quot;20-45&quot;</span>,</a>
+<a class="sourceLine" id="cb7-25" title="25">           <span class="kw">ifelse</span>(icucomb<span class="op">$</span>age<span class="op">&gt;</span><span class="dv">45</span> <span class="op">&amp;</span><span class="st"> </span>icucomb<span class="op">$</span>age<span class="op">&lt;=</span><span class="dv">65</span>,<span class="st">&quot;46-65&quot;</span>,</a>
+<a class="sourceLine" id="cb7-26" title="26">           <span class="kw">ifelse</span>(icucomb<span class="op">$</span>age<span class="op">&gt;</span><span class="dv">65</span> <span class="op">&amp;</span><span class="st"> </span>icucomb<span class="op">$</span>age<span class="op">&lt;=</span><span class="dv">80</span>,<span class="st">&quot;66-80&quot;</span>,</a>
+<a class="sourceLine" id="cb7-27" title="27">           <span class="kw">ifelse</span>(icucomb<span class="op">$</span>age<span class="op">&gt;</span><span class="dv">80</span>,<span class="st">&quot;81+&quot;</span>,</a>
+<a class="sourceLine" id="cb7-28" title="28">                  <span class="ot">NA</span>))))))))</a>
+<a class="sourceLine" id="cb7-29" title="29">icucomb<span class="op">$</span>AGE_rebin1 &lt;-<span class="st"> </span><span class="kw">as.factor</span>(icucomb<span class="op">$</span>AGE_rebin1)</a>
+<a class="sourceLine" id="cb7-30" title="30"></a>
+<a class="sourceLine" id="cb7-31" title="31"><span class="co">#change bins again</span></a>
+<a class="sourceLine" id="cb7-32" title="32">icucomb<span class="op">$</span>AGE_rebin2 &lt;-<span class="st"> </span><span class="kw">ifelse</span>(icucomb<span class="op">$</span>age<span class="op">&lt;=</span><span class="dv">1</span>,<span class="st">&quot;1-&quot;</span>,</a>
+<a class="sourceLine" id="cb7-33" title="33">            <span class="kw">ifelse</span>(icucomb<span class="op">$</span>age<span class="op">&gt;</span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>icucomb<span class="op">$</span>age<span class="op">&lt;=</span><span class="dv">2</span>,<span class="st">&quot;1-2&quot;</span>,</a>
+<a class="sourceLine" id="cb7-34" title="34">            <span class="kw">ifelse</span>(icucomb<span class="op">$</span>age<span class="op">&gt;</span><span class="dv">2</span> <span class="op">&amp;</span><span class="st"> </span>icucomb<span class="op">$</span>age<span class="op">&lt;=</span><span class="dv">3</span>,<span class="st">&quot;2-3&quot;</span>,</a>
+<a class="sourceLine" id="cb7-35" title="35">            <span class="kw">ifelse</span>(icucomb<span class="op">$</span>age<span class="op">&gt;</span><span class="dv">3</span> <span class="op">&amp;</span><span class="st"> </span>icucomb<span class="op">$</span>age<span class="op">&lt;=</span><span class="dv">4</span>,<span class="st">&quot;3-4&quot;</span>,</a>
+<a class="sourceLine" id="cb7-36" title="36">            <span class="kw">ifelse</span>(icucomb<span class="op">$</span>age<span class="op">&gt;</span><span class="dv">4</span> <span class="op">&amp;</span><span class="st"> </span>icucomb<span class="op">$</span>age<span class="op">&lt;=</span><span class="dv">5</span>,<span class="st">&quot;4-5&quot;</span>,</a>
+<a class="sourceLine" id="cb7-37" title="37">           <span class="kw">ifelse</span>(icucomb<span class="op">$</span>age<span class="op">&gt;</span><span class="dv">5</span> <span class="op">&amp;</span><span class="st"> </span>icucomb<span class="op">$</span>age<span class="op">&lt;=</span><span class="dv">65</span>,<span class="st">&quot;5-65&quot;</span>,</a>
+<a class="sourceLine" id="cb7-38" title="38">           <span class="kw">ifelse</span>(icucomb<span class="op">$</span>age<span class="op">&gt;</span><span class="dv">65</span> <span class="op">&amp;</span><span class="st"> </span>icucomb<span class="op">$</span>age<span class="op">&lt;=</span><span class="dv">80</span>,<span class="st">&quot;66-80&quot;</span>,</a>
+<a class="sourceLine" id="cb7-39" title="39">           <span class="kw">ifelse</span>(icucomb<span class="op">$</span>age<span class="op">&gt;</span><span class="dv">80</span>,<span class="st">&quot;81+&quot;</span>,</a>
+<a class="sourceLine" id="cb7-40" title="40">                  <span class="ot">NA</span>))))))))</a>
+<a class="sourceLine" id="cb7-41" title="41">icucomb<span class="op">$</span>AGE_rebin2 &lt;-<span class="st"> </span><span class="kw">as.factor</span>(icucomb<span class="op">$</span>AGE_rebin2)</a>
+<a class="sourceLine" id="cb7-42" title="42"><span class="co">#change bins last time</span></a>
+<a class="sourceLine" id="cb7-43" title="43">icucomb<span class="op">$</span>AGE_rebin3 &lt;-<span class="st"> </span><span class="kw">ifelse</span>(icucomb<span class="op">$</span>age<span class="op">&lt;=</span><span class="dv">1</span>,<span class="st">&quot;1-&quot;</span>,</a>
+<a class="sourceLine" id="cb7-44" title="44">            <span class="kw">ifelse</span>(icucomb<span class="op">$</span>age<span class="op">&gt;</span><span class="dv">1</span>,<span class="st">&quot;1+&quot;</span>,</a>
+<a class="sourceLine" id="cb7-45" title="45">                  <span class="ot">NA</span>))</a>
+<a class="sourceLine" id="cb7-46" title="46">icucomb<span class="op">$</span>AGE_rebin3 &lt;-<span class="st"> </span><span class="kw">as.factor</span>(icucomb<span class="op">$</span>AGE_rebin3)</a>
+<a class="sourceLine" id="cb7-47" title="47"></a>
+<a class="sourceLine" id="cb7-48" title="48"><span class="co">#remove age</span></a>
+<a class="sourceLine" id="cb7-49" title="49">icucomb<span class="op">$</span>age &lt;-<span class="st"> </span><span class="ot">NULL</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">icucomb<span class="op">$</span>group&lt;-<span class="dv">0</span></a>
+<a class="sourceLine" id="cb8-2" title="2">icucomb=<span class="kw">within</span>(icucomb,{group=<span class="kw">ifelse</span>(SUBJECT_ID<span class="op">&lt;</span><span class="dv">35000</span>,<span class="st">&quot;0&quot;</span>,<span class="st">&quot;1&quot;</span>)})</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">CUSTAYS_clean &lt;-icu_stay[, <span class="kw">c</span>(<span class="st">&quot;SUBJECT_ID&quot;</span>, <span class="st">&quot;HADM_ID&quot;</span>, <span class="st">&quot;ICUSTAY_ID&quot;</span>, <span class="st">&quot;FIRST_CAREUNIT&quot;</span>,<span class="st">&quot;LAST_CAREUNIT&quot;</span>, <span class="st">&quot;LOS&quot;</span>)]</a>
+<a class="sourceLine" id="cb9-2" title="2"></a>
+<a class="sourceLine" id="cb9-3" title="3">ICUSTAYS_clean &lt;-ICUSTAYS_clean[<span class="op">!</span><span class="kw">duplicated</span>(ICUSTAYS_clean[, <span class="st">&quot;SUBJECT_ID&quot;</span>]), ]</a>
+<a class="sourceLine" id="cb9-4" title="4"></a>
+<a class="sourceLine" id="cb9-5" title="5">loc_race_insur_<span class="dv">1</span> &lt;-<span class="st"> </span>admissions[,<span class="kw">c</span>(<span class="st">&quot;SUBJECT_ID&quot;</span>,<span class="st">&quot;DIAGNOSIS&quot;</span>)]</a>
+<a class="sourceLine" id="cb9-6" title="6">loc_race_insur_<span class="dv">1</span> &lt;-<span class="st"> </span>loc_race_insur_<span class="dv">1</span>[<span class="op">!</span><span class="kw">duplicated</span>(loc_race_insur_<span class="dv">1</span><span class="op">$</span>SUBJECT_ID),]</a>
+<a class="sourceLine" id="cb9-7" title="7"></a>
+<a class="sourceLine" id="cb9-8" title="8">icucomb_check&lt;-<span class="kw">inner_join</span>(ICUSTAYS_clean,loc_race_insur_<span class="dv">1</span>, <span class="dt">by=</span><span class="kw">c</span>(<span class="st">&quot;SUBJECT_ID&quot;</span>))</a>
+<a class="sourceLine" id="cb9-9" title="9">icucomb_check<span class="op">$</span>newborn &lt;-<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb9-10" title="10">icucomb_check=<span class="kw">within</span>(icucomb_check,{newborn=<span class="kw">ifelse</span>(DIAGNOSIS<span class="op">==</span><span class="st">&quot;NEWBORN&quot;</span>,<span class="st">&quot;NEWBORN&quot;</span>,<span class="st">&quot;NOT NEWBORN&quot;</span>)})</a>
+<a class="sourceLine" id="cb9-11" title="11"></a>
+<a class="sourceLine" id="cb9-12" title="12">icucomb_check<span class="op">$</span>group&lt;-<span class="dv">0</span></a>
+<a class="sourceLine" id="cb9-13" title="13">icucomb_check=<span class="kw">within</span>(icucomb_check,{group=<span class="kw">ifelse</span>(SUBJECT_ID<span class="op">&lt;</span><span class="dv">35000</span>,<span class="st">&quot;0&quot;</span>,<span class="st">&quot;1&quot;</span>)})</a></code></pre></div>
 
 </div>
             </section>
@@ -187,7 +335,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 <a href="data-sources.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="data-transformation-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="missing-values.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -218,7 +366,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/YOUR jackdyt/MIMICIII_visualization/edit/master/03-cleaning-callout.Rmd",
+"link": "https://github.com/YOUR jackdyt/MIMICIII_visualization/edit/master/03-cleaning.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -226,7 +374,7 @@ gitbook.start({
 "text": null
 },
 "view": {
-"link": "https://github.com/YOUR jackdyt/MIMICIII_visualization/blob/master/03-cleaning-callout.Rmd",
+"link": "https://github.com/YOUR jackdyt/MIMICIII_visualization/blob/master/03-cleaning.Rmd",
 "text": null
 },
 "download": null,

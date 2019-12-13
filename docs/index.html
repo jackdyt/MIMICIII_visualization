@@ -21,7 +21,6 @@
   
   
 
-<meta name="author" content="Yaotian Dai" />
 
 
 <meta name="date" content="2019-11-23" />
@@ -134,11 +133,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
 <li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a></li>
 <li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
-<li class="chapter" data-level="4" data-path="data-transformation-1.html"><a href="data-transformation-1.html"><i class="fa fa-check"></i><b>4</b> Data transformation</a></li>
-<li class="chapter" data-level="5" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>5</b> Missing values</a></li>
-<li class="chapter" data-level="6" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>6</b> Results</a></li>
-<li class="chapter" data-level="7" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>7</b> Interactive component</a></li>
-<li class="chapter" data-level="8" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>8</b> Conclusion</a></li>
+<li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a></li>
+<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a></li>
+<li class="chapter" data-level="6" data-path="interactive.html"><a href="interactive.html"><i class="fa fa-check"></i><b>6</b> interactive</a></li>
+<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -160,11 +158,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="header">
 <h1 class="title">MIMIC III</h1>
-<p class="author"><em>Yaotian Dai</em></p>
 <p class="date"><em>11/23/2019</em></p>
 </div>
 <div id="introduction" class="section level1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
+<p>In recent years there has been a concerted move towards the adoption of digital health record systems in hospitals, and utilizing data to predict a patient’s condition or the cure rate of a disease has become mainstream.To comply with the tide,in this topic, we use health record data from “MIMIC-III” to make two main predictions.</p>
+<p>The first part is evaluating the factors which may influence 30-Day Mortality of Patients Admitted to the Intensive Care Unit (ICU). In this part,we analyzed the cuases of death of patients within 30 days such as age, gender, family care and so on. Then, we find some patterns between factors that have an impact on 30-Day Mortality especially for insurance type and admission location. At last,since insurance type has a large influences, we explore more details about it. More specific information and results are shown in the conclusion part.The second part is also interesting.Through the analysis of patients’ “stay time” in ICU, it was found that the time is obviously different. Actually, there is a gap between two group of people.The lack of “subject-id” between 35,000 and 40,000 in the ICU data may be due to the absence of intermediate patients in the ICU.According to the research data, it was found that the different distribution patterns of ICU stay time between 0 and 35,000 and more than 40,000 were speculated to be caused by some factors between these two groups.As a result, the second purpose of this project is to explore which factors may affect the different time distribution and gender of the two groups, age, disease, or something else?</p>
+<p>We sincerely hope that this topic can improve people’s attention to medical data, and have a deeper understanding and care for patients.</p>
 
 </div>
             </section>

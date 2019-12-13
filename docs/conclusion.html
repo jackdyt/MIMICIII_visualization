@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 8 Conclusion | MIMIC III</title>
-  <meta name="description" content="Chapter 8 Conclusion | MIMIC III" />
+  <title>Chapter 7 Conclusion | MIMIC III</title>
+  <meta name="description" content="Chapter 7 Conclusion | MIMIC III" />
   <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 8 Conclusion | MIMIC III" />
+  <meta property="og:title" content="Chapter 7 Conclusion | MIMIC III" />
   <meta property="og:type" content="book" />
   
   
@@ -16,12 +16,11 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 8 Conclusion | MIMIC III" />
+  <meta name="twitter:title" content="Chapter 7 Conclusion | MIMIC III" />
   
   
   
 
-<meta name="author" content="Yaotian Dai" />
 
 
 <meta name="date" content="2019-11-23" />
@@ -31,7 +30,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="interactive-component.html"/>
+<link rel="prev" href="interactive.html"/>
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -134,11 +133,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
 <li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a></li>
 <li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
-<li class="chapter" data-level="4" data-path="data-transformation-1.html"><a href="data-transformation-1.html"><i class="fa fa-check"></i><b>4</b> Data transformation</a></li>
-<li class="chapter" data-level="5" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>5</b> Missing values</a></li>
-<li class="chapter" data-level="6" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>6</b> Results</a></li>
-<li class="chapter" data-level="7" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>7</b> Interactive component</a></li>
-<li class="chapter" data-level="8" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>8</b> Conclusion</a></li>
+<li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a></li>
+<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a></li>
+<li class="chapter" data-level="6" data-path="interactive.html"><a href="interactive.html"><i class="fa fa-check"></i><b>6</b> interactive</a></li>
+<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -159,29 +157,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="conclusion" class="section level1">
-<h1><span class="header-section-number">Chapter 8</span> Conclusion</h1>
-<p>Evaluate the factors that have an impact on 30-Day Mortality of Patients Admitted to the Intensive Care Unit (ICU)</p>
+<h1><span class="header-section-number">Chapter 7</span> Conclusion</h1>
+<p>Part a) Evaluate the factors that have an impact on 30-Day Mortality of Patients Admitted to the Intensive Care Unit (ICU)</p>
 <p>From the basic graphs, we can see how many patients of different gender, ages, ethnicity, admission location, and insurance type are accepted to ICU. They also show how many patients are dead within 30 days of their admission to ICU. We can see that first, the gender distribution is fairly even. Second, we have more patients with age higher than 45, and this is normal since older people are more likely to have emergent conditions. Third, we have more white patients who could cause some bias on ethnicity, and we will pay attention to this problem later. The portion of white patients is 71%. Fourth, we have more patients who have only Medicare, and more patients are from the emergency room directly. Finally, many more patients are alive within 30 days accepted to ICU. This is also normal because ICU saves people, not killing them.</p>
 <p>Then we want to find some patterns between factors that have an impact on 30-Day Mortality. First, we do not see some obvious patterns between ethnicity and 30-Day Mortality. The portion of each ethnicity is about the same as the portion of each ethnicity patients. The Gender shows the same pattern. However, for insurance type and admission location, we can see some patterns. More patients with Medicare and more patients who are transferred from other hospitals only die within 30 days.</p>
 <p>Finally, we want to see more detail between insurance type, admission location, and 30-Day Mortality. From the graphs, we can see that no matter the insurance type, transferred patients have the highest mortality rate, and no matter the admission rate, patients with Medicare only have the highest mortality rate.</p>
 <p>Therefore, we conclude that admission location and insurance type have impact on 30-Day Mortality of patients. Transferred patients and Medicare only patients have a higher mortality rate. This is partly because, as ICU patients, transferring from one hospital to a better hospital can waster a lot of precious time and cause higher Mortality. On the other hand, Medicare only patients tend to have lower income and lower living conditions, which may cause them to lose the best time to save lives.</p>
-
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb49-2" title="2"><span class="kw">library</span>(ggplot2)</a>
-<a class="sourceLine" id="cb49-3" title="3">df&lt;-<span class="kw">read.csv</span>(<span class="st">&quot;data/PATIENTS.csv&quot;</span>)</a>
-<a class="sourceLine" id="cb49-4" title="4">DeathY=df<span class="op">$</span>DOD_HOSP</a>
-<a class="sourceLine" id="cb49-5" title="5">BirthY=df<span class="op">$</span>DOB</a>
-<a class="sourceLine" id="cb49-6" title="6"><span class="co">#Data Cleaning</span></a>
-<a class="sourceLine" id="cb49-7" title="7">DeathY&lt;-<span class="kw">substr</span>(DeathY,<span class="dv">1</span>,<span class="dv">4</span>)</a>
-<a class="sourceLine" id="cb49-8" title="8">BirthY&lt;-<span class="kw">substr</span>(BirthY,<span class="dv">1</span>,<span class="dv">4</span>)</a>
-<a class="sourceLine" id="cb49-9" title="9">DeathY&lt;-<span class="kw">as.numeric</span>(DeathY)</a>
-<a class="sourceLine" id="cb49-10" title="10">BirthY&lt;-<span class="kw">as.numeric</span>(BirthY)</a>
-<a class="sourceLine" id="cb49-11" title="11">df<span class="op">$</span>DOD&lt;-DeathY</a>
-<a class="sourceLine" id="cb49-12" title="12">df<span class="op">$</span>DOB&lt;-BirthY</a>
-<a class="sourceLine" id="cb49-13" title="13">df&lt;-<span class="kw">na.omit</span>(df)</a>
-<a class="sourceLine" id="cb49-14" title="14">df<span class="op">$</span>LifeSpan&lt;-(df<span class="op">$</span>DOD<span class="op">-</span>df<span class="op">$</span>DOB) </a>
-<a class="sourceLine" id="cb49-15" title="15">df&lt;-<span class="kw">subset</span>(df,LifeSpan<span class="op">&lt;</span><span class="dv">100</span><span class="op">&amp;</span>LifeSpan<span class="op">&gt;</span><span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb49-16" title="16"><span class="co">#ggplot(df,aes(df$LifeSpan))+geom_bar()+facet_wrap(df$GENDER)</span></a></code></pre></div>
+<p>Part b) Explain the staying-time distribution difference of two patients groups</p>
+<p>In our exploration of the first part of the project, we did a lot of data cleaning. But is our data cleaning correct? We will try to justify it.</p>
+<p>In our first part, we filtered out all patients younger than 18 years old because of the following explorations.</p>
+<p>We observed the time distribution of patients receiving treatment in ICU and find that patients with subject ID before 35000 generally receive longer treatment in ICU than patients with subject ID after 35000. Why does it happen? This question is important because if we want to study whether the patient is alive within 30 days after receiving ICU treatment, we must study the factors that affect the length of time the patient is receiving treatment in ICU.</p>
+<p>Based on our series of analyses, we found that there was not much difference between the two groups in terms of gender and ethnicity.But there was a large difference in age distribution. We found that the number of patients under the age of 18 in the second group was much smaller than in the first group. To make things clear, we regrouped age. After several times of rebined, we found that the second group had no patients younger than 1 and the first group had 25% of patients younger than 1. Based on this obervation , we put forward a hypothesis: the first group may have a large number of newborns affecting the overall distribution. In order to determine that this hypothesis is correct, we divided the diagnosis into two groups, newborn and not newborn, and studied the types of ICU wards. We found that the second group had no NICU,which is aimed for babies, and no new born but the first group had many. This proves that our hypothesis is correct, and the number of newborns can explain the difference in distribution between the first and second groups.</p>
+<p>Therefore, our filtering out patients under the age of 18 in the first part is proved to be correct. If we do not filter out neonatal patients, our analysis will be wrong. As we all know, newborn babies need various treatments for a long time when they are weak at birth, but compared with the illness, once the newborns survive, they are more likely to stay alive rather than die. We cannot attribute all of this to treatment. Therefore, we have demonstrated that it is correct to wash out patients under the age of 18.</p>
 
 </div>
             </section>
@@ -189,7 +176,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="interactive-component.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="interactive.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
     </div>
   </div>
