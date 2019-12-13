@@ -159,31 +159,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="results" class="section level1">
 <h1><span class="header-section-number">Chapter 5</span> Results</h1>
 <p>Evaluate the factors that have an impact on 30-Day Mortality of Patients Admitted to the Intensive Care Unit (ICU)
-<img src="_main_files/figure-html/unnamed-chunk-19-1.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-19-2.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-19-3.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-19-4.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-19-5.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-19-6.png" width="672" /></p>
+<img src="finalproj_files/figure-html/unnamed-chunk-20-1.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-20-2.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-20-3.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-20-4.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-20-5.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-20-6.png" width="672" /></p>
 <p>Trying to find some patterns between mortality within 30 days and different factors
-<img src="_main_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<img src="finalproj_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <pre><code>## 
 ##      Other      Asian      Black    Unknown      White 
 ## 0.07037429 0.02916730 0.10105284 0.08639363 0.71301194</code></pre>
-<p><img src="_main_files/figure-html/unnamed-chunk-20-2.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-20-3.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-20-4.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-20-5.png" width="672" /></p>
-<p><img src="_main_files/figure-html/unnamed-chunk-21-1.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-21-2.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-21-3.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-21-4.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-21-5.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-21-6.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-21-2.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-21-3.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-21-4.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-21-5.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-22-1.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-22-2.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-22-3.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-22-4.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-22-5.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-22-6.png" width="672" /></p>
 <p>#Huimin Jiang
 Explain the staying-time distribution difference of two patients groups
 We first explore the distribution of patients’ icu time.</p>
 <pre><code>## Warning: Removed 9 rows containing missing values (geom_point).</code></pre>
-<p><img src="_main_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
 <p>We find that the data are distributed into to parts and there exists a gap in the middle part of graph. This can be explained by that the patients with id from 35000 to 40000 didn’t go to icu because their diseases are not required them to do that. But clearly there is a great difference between the two groups before ID=35000 and after.
 To make sure we didn’t misunderstand the data pattern, we group the data into two groups to explore its’ statistic distribution. And we use boxplot to make it clear.
 We can see in the first graph that two boxplots have similar mean, median, min and max, but have different outlier range. To make it clear, we use sqrt to change the y. In this case, there still a large difference in range.
-<img src="_main_files/figure-html/unnamed-chunk-23-1.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-23-2.png" width="672" /></p>
+<img src="finalproj_files/figure-html/unnamed-chunk-24-1.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-24-2.png" width="672" /></p>
 <p>We try to find some factors that may explain this pattern.
 First we bin the data into two groups. group0 is id less than 35000 and group1 is id larger than 40000.
-<img src="_main_files/figure-html/unnamed-chunk-24-1.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-24-2.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-24-3.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-24-4.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-24-5.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-24-6.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-24-7.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-24-8.png" width="672" /></p>
+<img src="finalproj_files/figure-html/unnamed-chunk-25-1.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-25-2.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-25-3.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-25-4.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-25-5.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-25-6.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-25-7.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-25-8.png" width="672" /></p>
 <p>In the 1st graphs, it is difficult to see the difference. Men and women are almost evenly distributed.
 The 2nd and 3rd graphs, group0 has NICU that group1 does not, we can pay attention to see if this pattern will help our research.
 In the 4th graph, there is no significant difference in the distribution of ethnicity between the two groups.
 In the 5th picture, we can see that group0 has the age group that group1 does not. In order to make the distribution of specific ages we gradually narrow the bin of the age difference. Finally, we found in the figure “Age bin changes 3” that there are many people in group0 who are younger than 1. We assume they are newborns. To make sure they are indeed newborn, we introduce diagnose to check if our assumption is right.</p>
-<p><img src="_main_files/figure-html/unnamed-chunk-25-1.png" width="672" />
+<p><img src="finalproj_files/figure-html/unnamed-chunk-26-1.png" width="672" />
 As we can see in the graph, group 0 indeed has newborn which can explain the pattern shown in the point plot.</p>
 
 </div>

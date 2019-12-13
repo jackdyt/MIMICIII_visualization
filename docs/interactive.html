@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 4 Missing values | MIMIC III</title>
-  <meta name="description" content="Chapter 4 Missing values | MIMIC III" />
+  <title>Chapter 6 interactive | MIMIC III</title>
+  <meta name="description" content="Chapter 6 interactive | MIMIC III" />
   <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 4 Missing values | MIMIC III" />
+  <meta property="og:title" content="Chapter 6 interactive | MIMIC III" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 4 Missing values | MIMIC III" />
+  <meta name="twitter:title" content="Chapter 6 interactive | MIMIC III" />
   
   
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="data-transformation.html"/>
-<link rel="next" href="results.html"/>
+<link rel="prev" href="results.html"/>
+<link rel="next" href="conclusion.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -156,58 +156,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="missing-values" class="section level1">
-<h1><span class="header-section-number">Chapter 4</span> Missing values</h1>
-<pre><code>##               ROW_ID           SUBJECT_ID              HADM_ID 
-##                    0                    0                    0 
-##            ADMITTIME            DISCHTIME            DEATHTIME 
-##                    0                    0                53122 
-##       ADMISSION_TYPE   ADMISSION_LOCATION   DISCHARGE_LOCATION 
-##                    0                    0                    0 
-##            INSURANCE             LANGUAGE             RELIGION 
-##                    0                25332                  458 
-##       MARITAL_STATUS            ETHNICITY            EDREGTIME 
-##                10128                    0                28099 
-##            EDOUTTIME            DIAGNOSIS HOSPITAL_EXPIRE_FLAG 
-##                28099                   25                    0 
-## HAS_CHARTEVENTS_DATA 
-##                    0</code></pre>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-14-1.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-14-2.png" width="672" />
-EDREGTIME, EDOUTTIME are time that the patient was registered and discharged from the emergency department. Basically, we are not interested in these columns, so they don’t have influence on our project.</p>
-<pre><code>##      ROW_ID  SUBJECT_ID      GENDER         DOB         DOD    DOD_HOSP 
-##           0           0           0           0       30761       36546 
-##     DOD_SSN EXPIRE_FLAG 
-##       33142           0</code></pre>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-15-1.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-15-2.png" width="672" />
-DOD is the date of death for the given patient. DOD_HOSP is the date of death as recorded in the hospital database. DOD_SSN is the date of death from the social security database. Is a patient do not die, then we don’t have data in these columns.</p>
-<pre><code>##         ROW_ID     SUBJECT_ID        HADM_ID     ICUSTAY_ID       DBSOURCE 
-##              0              0              0              0              0 
-## FIRST_CAREUNIT  LAST_CAREUNIT   FIRST_WARDID    LAST_WARDID         INTIME 
-##              0              0              0              0              0 
-##        OUTTIME            LOS 
-##             10             10</code></pre>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
-<pre><code>##     ROW_ID SUBJECT_ID    HADM_ID    SEQ_NUM  ICD9_CODE 
-##          0          0          0         47         47</code></pre>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
-<pre><code>##                 SUBJECT_ID                    HADM_ID 
-##                          0                          0 
-##                 ICUSTAY_ID             FIRST_CAREUNIT 
-##                          0                          0 
-##         ADMISSION_LOCATION                  INSURANCE 
-##                          0                          0 
-##                  ETHNICITY                  ADMITTIME 
-##                          0                          0 
-##                  DEATHTIME                     GENDER 
-##                      16997                          0 
-##                        DOB             mortality_time 
-##                          0                      16997 
-## mortality_withinthirtydays                        AGE 
-##                          0                          0 
-##                    DISEASE 
-##                          0</code></pre>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-18-1.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-18-2.png" width="672" />
-We can see that all the missing data are in DEATHTIME and mortality_time. This is because not all the patients die and those who are alive don’t have DEATHTIME and mortality_time.</p>
+<div id="interactive" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> interactive</h1>
+<iframe src="06-interactive.html" width="800" height="500">
+</iframe>
 
 </div>
             </section>
@@ -215,8 +167,8 @@ We can see that all the missing data are in DEATHTIME and mortality_time. This i
           </div>
         </div>
       </div>
-<a href="data-transformation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="results.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="results.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="conclusion.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -247,7 +199,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/YOUR jackdyt/MIMICIII_visualization/edit/master/04-missing.Rmd",
+"link": "https://github.com/YOUR jackdyt/MIMICIII_visualization/edit/master/06-interactive.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -255,7 +207,7 @@ gitbook.start({
 "text": null
 },
 "view": {
-"link": "https://github.com/YOUR jackdyt/MIMICIII_visualization/blob/master/04-missing.Rmd",
+"link": "https://github.com/YOUR jackdyt/MIMICIII_visualization/blob/master/06-interactive.Rmd",
 "text": null
 },
 "download": null,
